@@ -19,6 +19,13 @@ let selectedLang = "auto";
 let selectedTemplate = "classic";
 let selectedSource = window.HAS_MEDIA ? "file" : "scraper";
 
+// ---- Init: enforce correct visibility on page load ----
+if (!window.HAS_MEDIA) {
+    document.getElementById("mode-section").classList.add("hidden");
+    document.getElementById("upload-zone").classList.add("hidden");
+    document.getElementById("scraper-zone").classList.remove("hidden");
+}
+
 // ---- Source tab selection ----
 
 document.querySelectorAll(".source-tab").forEach((tab) => {
