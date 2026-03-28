@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+uploads/
+downloads/
+output/
+data/
+models/
+*.mp4
+*.mp3
+*.pth
+*.db
+.DS_Store

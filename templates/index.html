@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Enhancer & Compressor</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Media Enhancer</h1>
+            <p class="subtitle">Ameliorez vos videos et images avec l'IA</p>
+        </header>
+
+        <!-- Source Selection Tabs -->
+        <div id="source-tabs" class="source-tabs">
+            <button class="source-tab selected" data-source="file">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                Fichier MP4
+            </button>
+            <button class="source-tab" data-source="tiktok">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                </svg>
+                TikTok
+            </button>
+            <button class="source-tab" data-source="image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Image
+            </button>
+            <button class="source-tab" data-source="captions">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="2"/>
+                    <path d="M7 15h4m-4-3h10M7 9h7"/>
+                </svg>
+                Captions
+            </button>
+            <button class="source-tab" data-source="scraper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                Scraper
+            </button>
+            <button class="source-tab" data-source="analyse">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Analyse
+            </button>
+        </div>
+
+        <!-- Mode Selection -->
+        <div id="mode-section" class="mode-section">
+            <div class="mode-cards">
+                <div class="mode-card" data-mode="ffmpeg">
+                    <div class="mode-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                    </div>
+                    <h3>Rapide</h3>
+                    <p>Filtres FFmpeg : debruitage, nettete, couleurs + compression H.265</p>
+                    <span class="mode-badge">~1 min/min</span>
+                </div>
+                <div class="mode-card selected" data-mode="ai">
+                    <div class="mode-icon ai-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>IA (Real-ESRGAN)</h3>
+                    <p>Super-resolution par intelligence artificielle + compression H.265</p>
+                    <span class="mode-badge ai-badge">Meilleure qualite</span>
+                </div>
+            </div>
+
+            <div id="ai-options" class="ai-options">
+                <label>Facteur d'upscale :</label>
+                <div class="scale-buttons">
+                    <button class="scale-btn" data-scale="1">x1 <span>Meme resolution, qualite amelioree</span></button>
+                    <button class="scale-btn selected" data-scale="2">x2 <span>Double la resolution</span></button>
+                    <button class="scale-btn" data-scale="4">x4 <span>Quadruple (lent)</span></button>
+                </div>
+            </div>
+
+            <!-- FPS Boost Option -->
+            <div class="fps-option">
+                <div class="fps-toggle-row">
+                    <div class="fps-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        Boost FPS (fluidite)
+                    </div>
+                    <div class="fps-buttons">
+                        <button class="fps-btn selected" data-fps="1">Off</button>
+                        <button class="fps-btn" data-fps="2">x2 <span>60fps</span></button>
+                        <button class="fps-btn" data-fps="4">x4 <span>120fps</span></button>
+                    </div>
+                </div>
+                <p class="fps-hint">Interpole des frames pour rendre la video plus fluide. Augmente le temps de traitement.</p>
+            </div>
+        </div>
+
+        <!-- File Upload Zone -->
+        <div id="upload-zone" class="upload-zone">
+            <div class="upload-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+            </div>
+            <p class="upload-text">Glissez votre video MP4 ici</p>
+            <p class="upload-hint">ou cliquez pour selectionner un fichier</p>
+            <input type="file" id="file-input" accept=".mp4,video/mp4" hidden>
+        </div>
+
+        <!-- TikTok URL Input Zone -->
+        <div id="tiktok-zone" class="tiktok-zone hidden">
+            <div class="tiktok-header">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                </svg>
+                <div>
+                    <h3>Import TikTok</h3>
+                    <p>Sans filigrane, meilleure qualite</p>
+                </div>
+            </div>
+            <textarea id="tiktok-urls" class="tiktok-textarea" placeholder="Collez vos URLs TikTok ici (une par ligne)
+
+Exemples :
+https://www.tiktok.com/@user/video/123456789
+https://vm.tiktok.com/AbCdEf/
+..." rows="6"></textarea>
+            <div class="tiktok-info">
+                <span id="url-count">0 URL(s) detectee(s)</span>
+                <span class="tiktok-tip">Supporte les liens courts (vm.tiktok.com) et longs</span>
+            </div>
+            <button id="tiktok-start-btn" class="btn btn-primary tiktok-start-btn" disabled>
+                Telecharger et ameliorer
+            </button>
+        </div>
+
+        <!-- Image Upload Zone -->
+        <div id="image-zone" class="image-zone hidden">
+            <div class="image-header">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <div>
+                    <h3>Amelioration d'image</h3>
+                    <p>Real-ESRGAN : PNG, JPEG, WebP</p>
+                </div>
+            </div>
+            <div class="image-scale-section">
+                <label>Facteur d'upscale :</label>
+                <div class="scale-buttons">
+                    <button class="img-scale-btn" data-imgscale="1">x1 <span>Qualite amelioree</span></button>
+                    <button class="img-scale-btn selected" data-imgscale="2">x2 <span>Double la resolution</span></button>
+                    <button class="img-scale-btn" data-imgscale="4">x4 <span>Quadruple</span></button>
+                </div>
+            </div>
+            <div id="image-upload-zone" class="upload-zone" style="margin-top: 16px;">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </div>
+                <p class="upload-text">Glissez votre image ici</p>
+                <p class="upload-hint">PNG, JPEG, WebP acceptes</p>
+                <input type="file" id="image-file-input" accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff,.tif,image/*" hidden>
+            </div>
+        </div>
+
+        <!-- Captions Zone -->
+        <div id="captions-zone" class="captions-zone hidden">
+            <div class="captions-header">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="2"/>
+                    <path d="M7 15h4m-4-3h10M7 9h7"/>
+                </svg>
+                <div>
+                    <h3>Captions automatiques</h3>
+                    <p>Transcription IA + sous-titres incrustes (style CapCut)</p>
+                </div>
+            </div>
+
+            <div class="captions-options">
+                <div class="captions-option-group">
+                    <label>Langue :</label>
+                    <div class="lang-buttons">
+                        <button class="lang-btn selected" data-lang="auto">Auto</button>
+                        <button class="lang-btn" data-lang="fr">Francais</button>
+                        <button class="lang-btn" data-lang="en">English</button>
+                        <button class="lang-btn" data-lang="de">Deutsch</button>
+                    </div>
+                </div>
+
+                <div class="captions-option-group">
+                    <label>Template :</label>
+                    <div class="template-cards">
+                        <div class="template-card selected" data-template="classic">
+                            <div class="template-preview classic-preview">Texte</div>
+                            <span>Classic</span>
+                        </div>
+                        <div class="template-card" data-template="bold_pop">
+                            <div class="template-preview bold-pop-preview">Texte</div>
+                            <span>Bold Pop</span>
+                        </div>
+                        <div class="template-card" data-template="minimal">
+                            <div class="template-preview minimal-preview">Texte</div>
+                            <span>Minimal</span>
+                        </div>
+                        <div class="template-card" data-template="neon">
+                            <div class="template-preview neon-preview">Texte</div>
+                            <span>Neon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="captions-upload-zone" class="upload-zone" style="margin-top: 16px;">
+                <div class="upload-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="2"/>
+                        <path d="M7 15h4m-4-3h10M7 9h7"/>
+                    </svg>
+                </div>
+                <p class="upload-text">Glissez vos videos ici</p>
+                <p class="upload-hint">MP4 avec voix/audio (plusieurs fichiers possibles)</p>
+                <input type="file" id="captions-file-input" accept=".mp4,video/mp4" multiple hidden>
+            </div>
+        </div>
+
+        <!-- Scraper Zone -->
+        <div id="scraper-zone" class="scraper-zone hidden">
+            <div class="scraper-header">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <div>
+                    <h3>Shopify Scraper</h3>
+                    <p>Extraire les produits d'une boutique Shopify en CSV</p>
+                </div>
+            </div>
+
+            <div class="scraper-url-section">
+                <label>URL de la boutique :</label>
+                <div class="scraper-url-row">
+                    <input type="text" id="scraper-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
+                    <button id="scraper-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
+                </div>
+            </div>
+
+            <div id="scraper-collections-section" class="scraper-collections-section hidden">
+                <div class="scraper-collections-header">
+                    <label>Collections trouvees :</label>
+                    <div class="scraper-select-all-row">
+                        <button id="scraper-select-all-btn" class="scraper-link-btn">Tout selectionner</button>
+                        <button id="scraper-deselect-all-btn" class="scraper-link-btn">Tout deselectionner</button>
+                    </div>
+                </div>
+                <div id="scraper-collections-list" class="scraper-collections-list"></div>
+                <div class="scraper-actions-row">
+                    <button id="scraper-start-btn" class="btn btn-primary" style="width:100%">Exporter en CSV</button>
+                    <p class="scraper-hint">Selectionnez des collections ou laissez vide pour scraper toute la boutique</p>
+                </div>
+            </div>
+
+            <div id="scraper-no-collections" class="scraper-no-collections hidden">
+                <p>Aucune collection trouvee (ou API collections non accessible).</p>
+                <button id="scraper-start-all-btn" class="btn btn-primary" style="width:100%; margin-top:12px;">Exporter tous les produits en CSV</button>
+            </div>
+        </div>
+
+        <!-- Scraper Processing Section -->
+        <div id="scraper-processing-section" class="section hidden">
+            <h2>Scraping en cours</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="scraper-progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="scraper-progress-status">Connexion...</span>
+                    <span id="scraper-progress-pct">0%</span>
+                </div>
+            </div>
+            <div class="pipeline-steps">
+                <div class="step" data-step="connecting">
+                    <span class="step-dot"></span> Connexion a la boutique
+                </div>
+                <div class="step" data-step="scraping">
+                    <span class="step-dot"></span> Recuperation des produits
+                </div>
+                <div class="step" data-step="generating">
+                    <span class="step-dot"></span> Generation du CSV
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+            <p id="scraper-detail-status" class="ai-detail-status"></p>
+        </div>
+
+        <!-- Scraper Results Section -->
+        <div id="scraper-results-section" class="section hidden">
+            <h2>Export termine</h2>
+            <div class="scraper-result-info">
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="label">PRODUITS</div>
+                        <div class="value" id="scraper-products-count">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">LIGNES CSV</div>
+                        <div class="value" id="scraper-rows-count">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">FORMAT</div>
+                        <div class="value">Shopify CSV</div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="scraper-download-btn" class="btn btn-primary">Telecharger le CSV</button>
+                <button id="scraper-new-btn" class="btn btn-secondary">Nouveau scrape</button>
+            </div>
+        </div>
+
+        <!-- Analyse Zone -->
+        <div id="analyse-zone" class="scraper-zone hidden">
+            <div class="scraper-header">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                <div>
+                    <h3>Analyse de Shop</h3>
+                    <p>Best-sellers, estimation CA, liens vers les ads</p>
+                </div>
+            </div>
+
+            <!-- Sub-tabs: Analyse rapide / Tracking -->
+            <div class="analyse-subtabs">
+                <button class="analyse-subtab selected" data-subtab="quick">Analyse rapide</button>
+                <button class="analyse-subtab" data-subtab="tracking">Tracking inventaire</button>
+            </div>
+
+            <!-- Quick analysis -->
+            <div id="analyse-quick-section">
+                <div class="scraper-url-section">
+                    <label>URL de la boutique Shopify :</label>
+                    <div class="scraper-url-row">
+                        <input type="text" id="analyse-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
+                        <button id="analyse-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking section -->
+            <div id="analyse-tracking-section" class="hidden">
+                <div class="scraper-url-section">
+                    <label>Ajouter une boutique a tracker :</label>
+                    <div class="scraper-url-row">
+                        <input type="text" id="tracker-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com">
+                        <button id="tracker-add-btn" class="btn btn-primary scraper-fetch-btn">Ajouter</button>
+                    </div>
+                    <p class="scraper-hint" style="margin-top:8px;">Le scan automatique tourne toutes les 24h. Plus le tracking dure, plus les donnees sont precises.</p>
+                </div>
+
+                <div id="tracker-stores-list" class="tracker-stores-list"></div>
+            </div>
+        </div>
+
+        <!-- Tracker Scan Processing Section -->
+        <div id="tracker-scan-section" class="section hidden">
+            <h2>Scan inventaire en cours</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="tracker-progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="tracker-progress-status">Connexion...</span>
+                    <span id="tracker-progress-pct">0%</span>
+                </div>
+            </div>
+            <div class="pipeline-steps">
+                <div class="step active" data-step="scanning">
+                    <span class="step-dot"></span> Scan des variantes (cart probing)
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+            <p id="tracker-detail-status" class="ai-detail-status"></p>
+        </div>
+
+        <!-- Tracker Data Results Section -->
+        <div id="tracker-data-section" class="section hidden">
+            <h2>Donnees de ventes</h2>
+
+            <div class="analyse-summary">
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="label">BOUTIQUE</div>
+                        <div class="value" id="tracker-store-name">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">SCANS</div>
+                        <div class="value" id="tracker-scan-count">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">PERIODE</div>
+                        <div class="value" id="tracker-period">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">CA MENSUEL ESTIME</div>
+                        <div class="value analyse-revenue" id="tracker-total-revenue">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tracker-single-scan-notice" class="tracker-notice hidden">
+                Un seul scan disponible. Les donnees de ventes seront calculees apres le prochain scan automatique (dans ~24h). En attendant, le classement est base sur le tri best-selling de Shopify.
+            </div>
+
+            <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Produits par volume de ventes</h3>
+            <div id="tracker-products-list" class="analyse-products-list"></div>
+
+            <div class="actions" style="margin-top: 20px;">
+                <button id="tracker-back-btn" class="btn btn-secondary" style="flex:1;">Retour au tracking</button>
+            </div>
+        </div>
+
+        <!-- Analyse Processing Section -->
+        <div id="analyse-processing-section" class="section hidden">
+            <h2>Analyse en cours</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="analyse-progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="analyse-progress-status">Connexion...</span>
+                    <span id="analyse-progress-pct">0%</span>
+                </div>
+            </div>
+            <div class="pipeline-steps">
+                <div class="step" data-step="connecting">
+                    <span class="step-dot"></span> Connexion a la boutique
+                </div>
+                <div class="step" data-step="scraping">
+                    <span class="step-dot"></span> Recuperation des best-sellers
+                </div>
+                <div class="step" data-step="analyzing">
+                    <span class="step-dot"></span> Estimation du CA
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+            <p id="analyse-detail-status" class="ai-detail-status"></p>
+        </div>
+
+        <!-- Analyse Results Section -->
+        <div id="analyse-results-section" class="section hidden">
+            <h2>Analyse de la boutique</h2>
+
+            <div class="analyse-summary">
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="label">BOUTIQUE</div>
+                        <div class="value" id="analyse-store-name">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">PRODUITS ANALYSES</div>
+                        <div class="value" id="analyse-total-products">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">CA MENSUEL ESTIME</div>
+                        <div class="value analyse-revenue" id="analyse-total-revenue">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Top produits (par volume de ventes)</h3>
+            <div id="analyse-products-list" class="analyse-products-list"></div>
+
+            <div class="actions" style="margin-top: 20px;">
+                <button id="analyse-new-btn" class="btn btn-secondary" style="flex:1;">Nouvelle analyse</button>
+            </div>
+        </div>
+
+        <!-- Captions Processing Section -->
+        <div id="captions-processing-section" class="section hidden">
+            <h2>Sous-titrage en cours</h2>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="captions-progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="captions-progress-status">Demarrage...</span>
+                    <span id="captions-progress-pct">0%</span>
+                </div>
+            </div>
+
+            <div class="pipeline-steps">
+                <div class="step" data-step="extracting">
+                    <span class="step-dot"></span> Extraction de l'audio
+                </div>
+                <div class="step" data-step="transcribing">
+                    <span class="step-dot"></span> Transcription IA (Whisper)
+                </div>
+                <div class="step" data-step="generating">
+                    <span class="step-dot"></span> Generation des sous-titres
+                </div>
+                <div class="step" data-step="burning">
+                    <span class="step-dot"></span> Incrustation dans la video
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+
+            <p id="captions-detail-status" class="ai-detail-status"></p>
+        </div>
+
+        <!-- Captions Results Section -->
+        <div id="captions-results-section" class="section hidden">
+            <h2>Video sous-titree</h2>
+
+            <div class="captions-result-info">
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="label">LANGUE</div>
+                        <div class="value" id="captions-lang-result">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">SEGMENTS</div>
+                        <div class="value" id="captions-segments-result">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="label">TAILLE</div>
+                        <div class="value" id="captions-size-result">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="captions-download-btn" class="btn btn-primary">Telecharger la video sous-titree</button>
+                <button id="captions-new-btn" class="btn btn-secondary">Sous-titrer une autre video</button>
+            </div>
+        </div>
+
+        <!-- Captions Batch Results Section -->
+        <div id="captions-batch-results-section" class="section hidden">
+            <h2>Videos sous-titrees</h2>
+            <div id="captions-batch-results-list" class="tiktok-results-list"></div>
+            <div class="actions" style="margin-top: 20px;">
+                <button id="captions-batch-download-all-btn" class="btn btn-primary">Telecharger toutes les videos</button>
+                <button id="captions-batch-new-btn" class="btn btn-secondary">Nouveau batch</button>
+            </div>
+        </div>
+
+        <!-- Image Processing Section -->
+        <div id="image-processing-section" class="section hidden">
+            <h2>Amelioration en cours</h2>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="image-progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="image-progress-status">Analyse...</span>
+                    <span id="image-progress-pct">0%</span>
+                </div>
+            </div>
+
+            <div class="pipeline-steps">
+                <div class="step" id="img-step-analyzing" data-step="analyzing">
+                    <span class="step-dot"></span> Analyse de l'image
+                </div>
+                <div class="step" id="img-step-processing" data-step="processing">
+                    <span class="step-dot"></span> Amelioration IA (Real-ESRGAN)
+                </div>
+                <div class="step" id="img-step-done" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+
+            <p id="image-detail-status" class="ai-detail-status"></p>
+        </div>
+
+        <!-- Image Results Section -->
+        <div id="image-results-section" class="section hidden">
+            <h2>Resultat</h2>
+
+            <div id="image-preview-container" class="image-preview-container">
+                <img id="image-preview-before" class="image-preview" alt="Avant" />
+                <img id="image-preview-after" class="image-preview" alt="Apres" />
+            </div>
+
+            <div class="comparison">
+                <div class="comp-card">
+                    <h3>Avant</h3>
+                    <div id="img-before-info" class="comp-details"></div>
+                </div>
+                <div class="comp-arrow">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </div>
+                <div class="comp-card highlight">
+                    <h3>Apres</h3>
+                    <div id="img-after-info" class="comp-details"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="image-download-btn" class="btn btn-primary">Telecharger l'image amelioree</button>
+                <button id="image-new-btn" class="btn btn-secondary">Traiter une autre image</button>
+            </div>
+        </div>
+
+        <!-- Processing Section -->
+        <div id="processing-section" class="section hidden">
+            <h2>Traitement en cours</h2>
+
+            <div class="info-grid" id="input-info">
+                <h3>Video source</h3>
+                <div class="info-items" id="input-info-items"></div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-status">Analyse...</span>
+                    <span id="progress-pct">0%</span>
+                </div>
+            </div>
+
+            <div id="pipeline-ffmpeg" class="pipeline-steps">
+                <div class="step" data-step="analyzing">
+                    <span class="step-dot"></span> Analyse de la video
+                </div>
+                <div class="step" data-step="processing">
+                    <span class="step-dot"></span> Debruitage + Nettete + Couleurs + Compression H.265
+                </div>
+                <div class="step fps-step hidden" data-step="fps_boost">
+                    <span class="step-dot"></span> Interpolation FPS (fluidite)
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+
+            <div id="pipeline-ai" class="pipeline-steps hidden">
+                <div class="step" data-step="analyzing">
+                    <span class="step-dot"></span> Analyse de la video
+                </div>
+                <div class="step" data-step="ai_processing">
+                    <span class="step-dot"></span> Extraction des frames
+                </div>
+                <div class="step" data-step="ai_upscale">
+                    <span class="step-dot"></span> Amelioration IA (Real-ESRGAN) frame par frame
+                </div>
+                <div class="step" data-step="ai_reassemble">
+                    <span class="step-dot"></span> Assemblage + Compression H.265
+                </div>
+                <div class="step fps-step hidden" data-step="fps_boost">
+                    <span class="step-dot"></span> Interpolation FPS (fluidite)
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+
+            <div id="pipeline-tiktok" class="pipeline-steps hidden">
+                <div class="step" data-step="downloading">
+                    <span class="step-dot"></span> Telechargement TikTok (sans filigrane)
+                </div>
+                <div class="step" data-step="enhancing">
+                    <span class="step-dot"></span> Amelioration IA
+                </div>
+                <div class="step" data-step="done">
+                    <span class="step-dot"></span> Termine
+                </div>
+            </div>
+
+            <p id="ai-detail-status" class="ai-detail-status hidden"></p>
+        </div>
+
+        <!-- Results Section (file upload) -->
+        <div id="results-section" class="section hidden">
+            <h2>Resultat</h2>
+
+            <div class="comparison">
+                <div class="comp-card">
+                    <h3>Avant</h3>
+                    <div id="before-info" class="comp-details"></div>
+                </div>
+                <div class="comp-arrow">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </div>
+                <div class="comp-card highlight">
+                    <h3>Apres</h3>
+                    <div id="after-info" class="comp-details"></div>
+                </div>
+            </div>
+
+            <div class="savings" id="savings"></div>
+
+            <div class="actions">
+                <button id="download-btn" class="btn btn-primary">Telecharger la video amelioree</button>
+                <button id="new-btn" class="btn btn-secondary">Traiter une autre video</button>
+            </div>
+        </div>
+
+        <!-- TikTok Results Section -->
+        <div id="tiktok-results-section" class="section hidden">
+            <h2>Resultats TikTok</h2>
+            <div id="tiktok-results-list" class="tiktok-results-list"></div>
+            <div class="actions" style="margin-top: 20px;">
+                <button id="tiktok-download-all-btn" class="btn btn-primary">Telecharger toutes les videos</button>
+                <button id="tiktok-new-btn" class="btn btn-secondary">Nouveau batch</button>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div id="error-section" class="section hidden">
+            <div class="error-box">
+                <h3>Erreur</h3>
+                <p id="error-message"></p>
+                <button id="retry-btn" class="btn btn-secondary">Reessayer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
