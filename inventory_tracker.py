@@ -15,7 +15,10 @@ from urllib.parse import urlparse
 
 import requests
 
-DB_PATH = Path(__file__).parent / "data" / "inventory.db"
+import os as _os
+# On Railway, use /app/data (persistent volume). Locally, use ./data
+_data_dir = _os.environ.get("DATA_DIR", str(Path(__file__).parent / "data"))
+DB_PATH = Path(_data_dir) / "inventory.db"
 
 
 def _get_db():
