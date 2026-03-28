@@ -17,7 +17,7 @@ let selectedFpsBoost = 1;
 let selectedImageScale = 2;
 let selectedLang = "auto";
 let selectedTemplate = "classic";
-let selectedSource = "file";  // "file", "tiktok", "image", "captions", or "scraper"
+let selectedSource = window.HAS_MEDIA ? "file" : "scraper";
 
 // ---- Source tab selection ----
 

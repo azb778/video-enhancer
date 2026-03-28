@@ -15,6 +15,7 @@
 
         <!-- Source Selection Tabs -->
         <div id="source-tabs" class="source-tabs">
+            {% if has_media %}
             <button class="source-tab selected" data-source="file">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -44,7 +45,8 @@
                 </svg>
                 Captions
             </button>
-            <button class="source-tab" data-source="scraper">
+            {% endif %}
+            <button class="source-tab {% if not has_media %}selected{% endif %}" data-source="scraper">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                     <line x1="3" y1="6" x2="21" y2="6"/>
@@ -63,7 +65,7 @@
         </div>
 
         <!-- Mode Selection -->
-        <div id="mode-section" class="mode-section">
+        <div id="mode-section" class="mode-section{% if not has_media %} hidden{% endif %}"
             <div class="mode-cards">
                 <div class="mode-card" data-mode="ffmpeg">
                     <div class="mode-icon">
@@ -118,7 +120,7 @@
         </div>
 
         <!-- File Upload Zone -->
-        <div id="upload-zone" class="upload-zone">
+        <div id="upload-zone" class="upload-zone{% if not has_media %} hidden{% endif %}"
             <div class="upload-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -253,7 +255,7 @@ https://vm.tiktok.com/AbCdEf/
         </div>
 
         <!-- Scraper Zone -->
-        <div id="scraper-zone" class="scraper-zone hidden">
+        <div id="scraper-zone" class="scraper-zone{% if has_media %} hidden{% endif %}"
             <div class="scraper-header">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -765,6 +767,7 @@ https://vm.tiktok.com/AbCdEf/
         </div>
     </div>
 
+    <script>window.HAS_MEDIA = {{ 'true' if has_media else 'false' }};</script>
     <script src="/static/app.js"></script>
 </body>
 </html>

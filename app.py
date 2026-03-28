@@ -46,7 +46,7 @@ shopify_scraper.OUTPUT_DIR = OUTPUT_DIR
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", has_media=_HAS_MEDIA)
 
 
 @app.before_request

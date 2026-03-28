@@ -90,7 +90,7 @@ def build_ffmpeg_command(input_path, output_path, video_info, fps_boost=1):
         current_fps = video_info.get("fps", 30)
         target_fps = min(current_fps * fps_boost, 120)  # Cap at 120fps
         filters.append(
-            f"minterpolate=fps={target_fps}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1"
+            f"minterpolate=fps={target_fps}:mi_mode=mci:mc_mode=obmc:me_mode=bidir"
         )
 
     vf = ",".join(filters)
@@ -131,15 +131,15 @@ def _run_fps_boost(input_path, output_path, video_info, fps_boost, job):
 
     job["status_message"] = f"Interpolation FPS : {current_fps} -> {target_fps} fps..."
 
-    vf = f"minterpolate=fps={target_fps}:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1"
+    vf = f"minterpolate=fps={target_fps}:mi_mode=mci:mc_mode=obmc:me_mode=bidir"
 
     cmd = [
         "ffmpeg", "-y",
         "-i", str(input_path),
         "-vf", vf,
         "-c:v", "libx265",
-        "-crf", "18",
-        "-preset", "slow",
+        "-crf", "20",
+        "-preset", "medium",
         "-x265-params", "log-level=error",
         "-tag:v", "hvc1",
         "-c:a", "aac", "-b:a", "192k",
