@@ -3,14 +3,24 @@ from pathlib import Path
 
 from flask import Flask, render_template, request, jsonify, send_file
 
-from video_processor import start_job, get_job, get_video_info, UPLOADS_DIR, OUTPUT_DIR
-from tiktok_downloader import start_tiktok_job, get_tiktok_job, DOWNLOADS_DIR
-from image_processor import start_image_job, get_image_job
-from captions_processor import (
-    start_captions_job, get_captions_job,
-    start_captions_batch, get_captions_batch,
-    TEMPLATES as CAPTION_TEMPLATES,
-)
+# Heavy deps (video/image/captions) — optional on cloud deployments
+try:
+    from video_processor import start_job, get_job, get_video_info, UPLOADS_DIR, OUTPUT_DIR
+    from tiktok_downloader import start_tiktok_job, get_tiktok_job, DOWNLOADS_DIR
+    from image_processor import start_image_job, get_image_job
+    from captions_processor import (
+        start_captions_job, get_captions_job,
+        start_captions_batch, get_captions_batch,
+        TEMPLATES as CAPTION_TEMPLATES,
+    )
+    _HAS_MEDIA = True
+except ImportError:
+    _HAS_MEDIA = False
+    UPLOADS_DIR = Path("uploads")
+    OUTPUT_DIR = Path("output")
+    DOWNLOADS_DIR = Path("downloads")
+
+# Lightweight deps (scraper/tracker) — always available
 from shopify_scraper import (
     fetch_collections, start_scrape_job, get_scrape_job,
     start_analyse_job, get_analyse_job,
@@ -37,6 +47,15 @@ shopify_scraper.OUTPUT_DIR = OUTPUT_DIR
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.before_request
+def _check_media_routes():
+    if not _HAS_MEDIA:
+        path = request.path
+        media_prefixes = ("/upload", "/status/", "/download/", "/tiktok", "/image/", "/captions/")
+        if any(path.startswith(p) for p in media_prefixes):
+            return jsonify({"error": "Media processing unavailable on this server (deploy locally for video/image features)"}), 503
 
 
 @app.route("/upload", methods=["POST"])
