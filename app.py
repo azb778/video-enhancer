@@ -3,18 +3,26 @@ from pathlib import Path
 
 from flask import Flask, render_template, request, jsonify, send_file
 
-# Heavy deps (video/image/captions) — optional on cloud deployments
-try:
-    from video_processor import start_job, get_job, get_video_info, UPLOADS_DIR, OUTPUT_DIR
-    from tiktok_downloader import start_tiktok_job, get_tiktok_job, DOWNLOADS_DIR
-    from image_processor import start_image_job, get_image_job
-    from captions_processor import (
-        start_captions_job, get_captions_job,
-        start_captions_batch, get_captions_batch,
-        TEMPLATES as CAPTION_TEMPLATES,
-    )
-    _HAS_MEDIA = True
-except ImportError:
+# Heavy deps (video/image/captions) — disabled on cloud via CLOUD_MODE env var
+_CLOUD_MODE = os.environ.get("CLOUD_MODE", "").lower() in ("1", "true", "yes")
+
+if not _CLOUD_MODE:
+    try:
+        from video_processor import start_job, get_job, get_video_info, UPLOADS_DIR, OUTPUT_DIR
+        from tiktok_downloader import start_tiktok_job, get_tiktok_job, DOWNLOADS_DIR
+        from image_processor import start_image_job, get_image_job
+        from captions_processor import (
+            start_captions_job, get_captions_job,
+            start_captions_batch, get_captions_batch,
+            TEMPLATES as CAPTION_TEMPLATES,
+        )
+        _HAS_MEDIA = True
+    except ImportError:
+        _HAS_MEDIA = False
+        UPLOADS_DIR = Path("uploads")
+        OUTPUT_DIR = Path("output")
+        DOWNLOADS_DIR = Path("downloads")
+else:
     _HAS_MEDIA = False
     UPLOADS_DIR = Path("uploads")
     OUTPUT_DIR = Path("output")
