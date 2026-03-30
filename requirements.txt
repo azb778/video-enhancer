@@ -1,4 +1,14 @@
 flask>=3.0
+gunicorn>=21.2
+requests>=2.31
 yt-dlp>=2024.0
 faster-whisper>=1.0.0
-requests>=2.31
+openai>=1.0
+anthropic>=0.20
+edge-tts>=6.1
+Pillow>=10.0
+opencv-python-headless>=4.8
+numpy>=1.24
+openpyxl>=3.1
+rembg>=2.0.50
+onnxruntime>=1.16

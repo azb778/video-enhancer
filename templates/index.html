@@ -3,771 +3,1755 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Enhancer & Compressor</title>
+    <title>Media Enhancer</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Media Enhancer</h1>
-            <p class="subtitle">Ameliorez vos videos et images avec l'IA</p>
-        </header>
+<div class="app-layout">
 
-        <!-- Source Selection Tabs -->
-        <div id="source-tabs" class="source-tabs">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <span class="brand-name">Media<br>Enhancer</span>
+        </div>
+
+        <nav class="sidebar-nav">
             {% if has_media %}
-            <button class="source-tab selected" data-source="file">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
+            <button class="nav-item active" data-source="file">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="2" y="2" width="20" height="20" rx="3"/>
+                    <polygon points="10 8 16 12 10 16 10 8"/>
                 </svg>
-                Fichier MP4
+                <span>Vidéo</span>
             </button>
-            <button class="source-tab" data-source="tiktok">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="nav-item" data-source="tiktok">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
                 </svg>
-                TikTok
+                <span>TikTok</span>
             </button>
-            <button class="source-tab" data-source="image">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <button class="nav-item" data-source="image">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
                     <circle cx="8.5" cy="8.5" r="1.5"/>
                     <polyline points="21 15 16 10 5 21"/>
                 </svg>
-                Image
+                <span>Image</span>
             </button>
-            <button class="source-tab" data-source="captions">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="nav-item" data-source="captions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <rect x="2" y="2" width="20" height="20" rx="2"/>
                     <path d="M7 15h4m-4-3h10M7 9h7"/>
                 </svg>
-                Captions
+                <span>Captions</span>
+            </button>
+            {% if has_media %}
+            <button class="nav-item" data-source="downloader">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Downloader</span>
+            </button>
+            <button class="nav-item" data-source="audio">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M9 18V5l12-2v13"/>
+                    <circle cx="6" cy="18" r="3"/>
+                    <circle cx="18" cy="16" r="3"/>
+                </svg>
+                <span>Audio</span>
+            </button>
+            <button class="nav-item" data-source="trim">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+                </svg>
+                <span>Trim</span>
+            </button>
+            <button class="nav-item" data-source="bgremove">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>BG Remove</span>
+            </button>
+            <button class="nav-item" data-source="voiceover">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+                <span>Voix Off</span>
+            </button>
+            <button class="nav-item" data-source="automation">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/>
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                    <line x1="12" y1="12" x2="12" y2="16"/>
+                    <line x1="10" y1="14" x2="14" y2="14"/>
+                </svg>
+                <span>Automation</span>
+                <span class="nav-badge">NEW</span>
+            </button>
+            <button class="nav-item" data-source="publish">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                <span>Publier</span>
             </button>
             {% endif %}
-            <button class="source-tab {% if not has_media %}selected{% endif %}" data-source="scraper">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <div class="nav-divider"></div>
+            {% endif %}
+            <button class="nav-item {% if not has_media %}active{% endif %}" data-source="scraper">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                     <line x1="3" y1="6" x2="21" y2="6"/>
                     <path d="M16 10a4 4 0 0 1-8 0"/>
                 </svg>
-                Scraper
+                <span>Scraper</span>
             </button>
-            <button class="source-tab" data-source="analyse">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <button class="nav-item" data-source="analyse">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                     <line x1="18" y1="20" x2="18" y2="10"/>
                     <line x1="12" y1="20" x2="12" y2="4"/>
                     <line x1="6" y1="20" x2="6" y2="14"/>
                 </svg>
-                Analyse
+                <span>Analyse</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-item" data-source="history">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                    <path d="M12 7v5l4 2"/>
+                </svg>
+                <span>Historique</span>
+            </button>
+            <button class="nav-item" data-source="settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                <span>Paramètres</span>
             </button>
         </div>
+    </aside>
 
-        <!-- Mode Selection -->
-        <div id="mode-section" class="mode-section{% if not has_media %} hidden{% endif %}">
-            <div class="mode-cards">
-                <div class="mode-card" data-mode="ffmpeg">
-                    <div class="mode-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                    </div>
-                    <h3>Rapide</h3>
-                    <p>Filtres FFmpeg : debruitage, nettete, couleurs + compression H.265</p>
-                    <span class="mode-badge">~1 min/min</span>
-                </div>
-                <div class="mode-card selected" data-mode="ai">
-                    <div class="mode-icon ai-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                            <path d="M2 17l10 5 10-5"/>
-                            <path d="M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <h3>IA (Real-ESRGAN)</h3>
-                    <p>Super-resolution par intelligence artificielle + compression H.265</p>
-                    <span class="mode-badge ai-badge">Meilleure qualite</span>
-                </div>
+    <!-- MAIN -->
+    <main class="main-content">
+        <div class="content-area">
+
+            <!-- Hidden source-tabs (JS compatibility) -->
+            <div id="source-tabs" class="source-tabs compat-hidden">
+                {% if has_media %}
+                <button class="source-tab selected" data-source="file">Fichier MP4</button>
+                <button class="source-tab" data-source="tiktok">TikTok</button>
+                <button class="source-tab" data-source="image">Image</button>
+                <button class="source-tab" data-source="captions">Captions</button>
+                <button class="source-tab" data-source="downloader">Downloader</button>
+                <button class="source-tab" data-source="audio">Audio</button>
+                <button class="source-tab" data-source="trim">Trim</button>
+                <button class="source-tab" data-source="bgremove">BG Remove</button>
+                {% endif %}
+                <button class="source-tab {% if not has_media %}selected{% endif %}" data-source="scraper">Scraper</button>
+                <button class="source-tab" data-source="analyse">Analyse</button>
+                <button class="source-tab" data-source="automation">Automation</button>
+                <button class="source-tab" data-source="publish">Publier</button>
             </div>
 
-            <div id="ai-options" class="ai-options">
-                <label>Facteur d'upscale :</label>
-                <div class="scale-buttons">
-                    <button class="scale-btn" data-scale="1">x1 <span>Meme resolution, qualite amelioree</span></button>
-                    <button class="scale-btn selected" data-scale="2">x2 <span>Double la resolution</span></button>
-                    <button class="scale-btn" data-scale="4">x4 <span>Quadruple (lent)</span></button>
-                </div>
+            <!-- Page Title -->
+            <div class="page-header">
+                <h1 id="page-title">{% if has_media %}Vidéo{% else %}Scraper{% endif %}</h1>
+                <p id="page-subtitle">{% if has_media %}Améliorez la qualité de vos vidéos avec l'IA{% else %}Extraire les produits d'une boutique Shopify{% endif %}</p>
             </div>
 
-            <!-- FPS Boost Option -->
-            <div class="fps-option">
-                <div class="fps-toggle-row">
-                    <div class="fps-label">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                        Boost FPS (fluidite)
+            <!-- Mode Selection -->
+            <div id="mode-section" class="mode-section{% if not has_media %} hidden{% endif %}">
+                <div class="mode-cards">
+                    <div class="mode-card" data-mode="ffmpeg">
+                        <div class="mode-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        </div>
+                        <h3>Rapide</h3>
+                        <p>FFmpeg : débruitage, netteté, couleurs + H.265</p>
+                        <span class="mode-badge">~1 min/min</span>
                     </div>
-                    <div class="fps-buttons">
-                        <button class="fps-btn selected" data-fps="1">Off</button>
-                        <button class="fps-btn" data-fps="2">x2 <span>60fps</span></button>
-                        <button class="fps-btn" data-fps="4">x4 <span>120fps</span></button>
+                    <div class="mode-card selected" data-mode="ai">
+                        <div class="mode-icon ai-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        </div>
+                        <h3>IA (Real-ESRGAN)</h3>
+                        <p>Super-résolution par intelligence artificielle + H.265</p>
+                        <span class="mode-badge ai-badge">Meilleure qualité</span>
                     </div>
                 </div>
-                <p class="fps-hint">Interpole des frames pour rendre la video plus fluide. Augmente le temps de traitement.</p>
-            </div>
-        </div>
 
-        <!-- File Upload Zone -->
-        <div id="upload-zone" class="upload-zone{% if not has_media %} hidden{% endif %}">
-            <div class="upload-icon">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-            </div>
-            <p class="upload-text">Glissez votre video MP4 ici</p>
-            <p class="upload-hint">ou cliquez pour selectionner un fichier</p>
-            <input type="file" id="file-input" accept=".mp4,video/mp4" hidden>
-        </div>
+                <div id="ai-options" class="ai-options">
+                    <label>Facteur d'upscale :</label>
+                    <div class="scale-buttons">
+                        <button class="scale-btn" data-scale="1">x1 <span>Même résolution, qualité améliorée</span></button>
+                        <button class="scale-btn selected" data-scale="2">x2 <span>Double la résolution</span></button>
+                        <button class="scale-btn" data-scale="4">x4 <span>Quadruple (lent)</span></button>
+                    </div>
+                </div>
 
-        <!-- TikTok URL Input Zone -->
-        <div id="tiktok-zone" class="tiktok-zone hidden">
-            <div class="tiktok-header">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-                </svg>
-                <div>
-                    <h3>Import TikTok</h3>
-                    <p>Sans filigrane, meilleure qualite</p>
+                <div class="fps-option">
+                    <div class="fps-toggle-row">
+                        <div class="fps-label">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Boost FPS (fluidité)
+                        </div>
+                        <div class="fps-buttons">
+                            <button class="fps-btn selected" data-fps="1">Off</button>
+                            <button class="fps-btn" data-fps="2">x2 <span>60fps</span></button>
+                            <button class="fps-btn" data-fps="4">x4 <span>120fps</span></button>
+                        </div>
+                    </div>
+                    <p class="fps-hint">Interpole des frames pour rendre la vidéo plus fluide.</p>
                 </div>
             </div>
-            <textarea id="tiktok-urls" class="tiktok-textarea" placeholder="Collez vos URLs TikTok ici (une par ligne)
+
+            <!-- File Upload Zone -->
+            <div id="upload-zone" class="upload-zone{% if not has_media %} hidden{% endif %}">
+                <div class="upload-icon">
+                    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <p class="upload-text">Glissez votre vidéo MP4 ici</p>
+                <p class="upload-hint">ou cliquez pour sélectionner un fichier</p>
+                <input type="file" id="file-input" accept=".mp4,video/mp4" hidden>
+            </div>
+
+            <!-- TikTok Zone -->
+            <div id="tiktok-zone" class="tiktok-zone hidden">
+                <div class="tiktok-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                    <div>
+                        <h3>Import TikTok</h3>
+                        <p>Sans filigrane, meilleure qualité</p>
+                    </div>
+                </div>
+                <textarea id="tiktok-urls" class="tiktok-textarea" placeholder="Collez vos URLs TikTok ici (une par ligne)
 
 Exemples :
 https://www.tiktok.com/@user/video/123456789
 https://vm.tiktok.com/AbCdEf/
 ..." rows="6"></textarea>
-            <div class="tiktok-info">
-                <span id="url-count">0 URL(s) detectee(s)</span>
-                <span class="tiktok-tip">Supporte les liens courts (vm.tiktok.com) et longs</span>
+                <div class="tiktok-info">
+                    <span id="url-count">0 URL(s) détectée(s)</span>
+                    <span class="tiktok-tip">Supporte les liens courts (vm.tiktok.com) et longs</span>
+                </div>
+                <button id="tiktok-start-btn" class="btn btn-primary tiktok-start-btn" disabled>
+                    Télécharger et améliorer
+                </button>
             </div>
-            <button id="tiktok-start-btn" class="btn btn-primary tiktok-start-btn" disabled>
-                Telecharger et ameliorer
-            </button>
-        </div>
 
-        <!-- Image Upload Zone -->
-        <div id="image-zone" class="image-zone hidden">
-            <div class="image-header">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                </svg>
-                <div>
-                    <h3>Amelioration d'image</h3>
-                    <p>Real-ESRGAN : PNG, JPEG, WebP</p>
+            <!-- Image Zone -->
+            <div id="image-zone" class="image-zone hidden">
+                <div class="image-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <div>
+                        <h3>Amélioration d'image</h3>
+                        <p>Real-ESRGAN : PNG, JPEG, WebP</p>
+                    </div>
                 </div>
-            </div>
-            <div class="image-scale-section">
-                <label>Facteur d'upscale :</label>
-                <div class="scale-buttons">
-                    <button class="img-scale-btn" data-imgscale="1">x1 <span>Qualite amelioree</span></button>
-                    <button class="img-scale-btn selected" data-imgscale="2">x2 <span>Double la resolution</span></button>
-                    <button class="img-scale-btn" data-imgscale="4">x4 <span>Quadruple</span></button>
+                <div class="image-scale-section">
+                    <label>Facteur d'upscale :</label>
+                    <div class="scale-buttons">
+                        <button class="img-scale-btn" data-imgscale="1">x1 <span>Qualité améliorée</span></button>
+                        <button class="img-scale-btn selected" data-imgscale="2">x2 <span>Double la résolution</span></button>
+                        <button class="img-scale-btn" data-imgscale="4">x4 <span>Quadruple</span></button>
+                    </div>
                 </div>
-            </div>
-            <div id="image-upload-zone" class="upload-zone" style="margin-top: 16px;">
-                <div class="upload-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
-                    </svg>
-                </div>
-                <p class="upload-text">Glissez votre image ici</p>
-                <p class="upload-hint">PNG, JPEG, WebP acceptes</p>
-                <input type="file" id="image-file-input" accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff,.tif,image/*" hidden>
-            </div>
-        </div>
-
-        <!-- Captions Zone -->
-        <div id="captions-zone" class="captions-zone hidden">
-            <div class="captions-header">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <rect x="2" y="2" width="20" height="20" rx="2"/>
-                    <path d="M7 15h4m-4-3h10M7 9h7"/>
-                </svg>
-                <div>
-                    <h3>Captions automatiques</h3>
-                    <p>Transcription IA + sous-titres incrustes (style CapCut)</p>
+                <div id="image-upload-zone" class="upload-zone" style="margin-top: 16px;">
+                    <div class="upload-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <p class="upload-text">Glissez votre image ici</p>
+                    <p class="upload-hint">PNG, JPEG, WebP acceptés</p>
+                    <input type="file" id="image-file-input" accept=".png,.jpg,.jpeg,.webp,.bmp,.tiff,.tif,image/*" hidden>
                 </div>
             </div>
 
-            <div class="captions-options">
-                <div class="captions-option-group">
-                    <label>Langue :</label>
-                    <div class="lang-buttons">
-                        <button class="lang-btn selected" data-lang="auto">Auto</button>
-                        <button class="lang-btn" data-lang="fr">Francais</button>
-                        <button class="lang-btn" data-lang="en">English</button>
-                        <button class="lang-btn" data-lang="de">Deutsch</button>
+            <!-- Captions Zone -->
+            <div id="captions-zone" class="captions-zone hidden">
+                <div class="captions-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 15h4m-4-3h10M7 9h7"/></svg>
+                    <div>
+                        <h3>Captions automatiques</h3>
+                        <p>Transcription IA + sous-titres incrustés (style CapCut)</p>
                     </div>
                 </div>
 
-                <div class="captions-option-group">
-                    <label>Template :</label>
-                    <div class="template-cards">
-                        <div class="template-card selected" data-template="classic">
-                            <div class="template-preview classic-preview">Texte</div>
-                            <span>Classic</span>
+                <div class="captions-options">
+                    <div class="captions-option-group">
+                        <label>Langue :</label>
+                        <div class="lang-buttons">
+                            <button class="lang-btn selected" data-lang="auto">Auto</button>
+                            <button class="lang-btn" data-lang="fr">Français</button>
+                            <button class="lang-btn" data-lang="en">English</button>
+                            <button class="lang-btn" data-lang="de">Deutsch</button>
                         </div>
-                        <div class="template-card" data-template="bold_pop">
-                            <div class="template-preview bold-pop-preview">Texte</div>
-                            <span>Bold Pop</span>
-                        </div>
-                        <div class="template-card" data-template="minimal">
-                            <div class="template-preview minimal-preview">Texte</div>
-                            <span>Minimal</span>
-                        </div>
-                        <div class="template-card" data-template="neon">
-                            <div class="template-preview neon-preview">Texte</div>
-                            <span>Neon</span>
+                    </div>
+                    <div class="captions-option-group">
+                        <label>Template :</label>
+                        <div class="template-cards">
+                            <div class="template-card selected" data-template="classic">
+                                <div class="template-preview classic-preview">Texte</div>
+                                <span>Classic</span>
+                            </div>
+                            <div class="template-card" data-template="bold_pop">
+                                <div class="template-preview bold-pop-preview">Texte</div>
+                                <span>Bold Pop</span>
+                            </div>
+                            <div class="template-card" data-template="minimal">
+                                <div class="template-preview minimal-preview">Texte</div>
+                                <span>Minimal</span>
+                            </div>
+                            <div class="template-card" data-template="neon">
+                                <div class="template-preview neon-preview">Texte</div>
+                                <span>Neon</span>
+                            </div>
+                            <div class="template-card" data-template="helvetica_highlight">
+                                <div class="template-preview helvetica-preview"><span class="hw-active">SEXE</span> <span class="hw-inactive">A CAUSE</span></div>
+                                <span>Highlight</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="captions-upload-zone" class="upload-zone" style="margin-top: 16px;">
-                <div class="upload-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <rect x="2" y="2" width="20" height="20" rx="2"/>
-                        <path d="M7 15h4m-4-3h10M7 9h7"/>
-                    </svg>
-                </div>
-                <p class="upload-text">Glissez vos videos ici</p>
-                <p class="upload-hint">MP4 avec voix/audio (plusieurs fichiers possibles)</p>
-                <input type="file" id="captions-file-input" accept=".mp4,video/mp4" multiple hidden>
-            </div>
-        </div>
-
-        <!-- Scraper Zone -->
-        <div id="scraper-zone" class="scraper-zone{% if has_media %} hidden{% endif %}">
-            <div class="scraper-header">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <path d="M16 10a4 4 0 0 1-8 0"/>
-                </svg>
-                <div>
-                    <h3>Shopify Scraper</h3>
-                    <p>Extraire les produits d'une boutique Shopify en CSV</p>
+                <div id="captions-upload-zone" class="upload-zone" style="margin-top: 16px;">
+                    <div class="upload-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 15h4m-4-3h10M7 9h7"/></svg>
+                    </div>
+                    <p class="upload-text">Glissez vos vidéos ici</p>
+                    <p class="upload-hint">MP4 avec voix/audio (plusieurs fichiers possibles)</p>
+                    <input type="file" id="captions-file-input" accept=".mp4,video/mp4" multiple hidden>
                 </div>
             </div>
 
-            <div class="scraper-url-section">
-                <label>URL de la boutique :</label>
-                <div class="scraper-url-row">
-                    <input type="text" id="scraper-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
-                    <button id="scraper-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
-                </div>
-            </div>
-
-            <div id="scraper-collections-section" class="scraper-collections-section hidden">
-                <div class="scraper-collections-header">
-                    <label>Collections trouvees :</label>
-                    <div class="scraper-select-all-row">
-                        <button id="scraper-select-all-btn" class="scraper-link-btn">Tout selectionner</button>
-                        <button id="scraper-deselect-all-btn" class="scraper-link-btn">Tout deselectionner</button>
+            <!-- Downloader Zone -->
+            <div id="downloader-zone" class="tiktok-zone hidden">
+                <div class="tiktok-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <div>
+                        <h3>Downloader Multi-Plateformes</h3>
+                        <p>YouTube, Instagram, Twitter/X, TikTok, Facebook, Reddit...</p>
                     </div>
                 </div>
-                <div id="scraper-collections-list" class="scraper-collections-list"></div>
-                <div class="scraper-actions-row">
-                    <button id="scraper-start-btn" class="btn btn-primary" style="width:100%">Exporter en CSV</button>
-                    <p class="scraper-hint">Selectionnez des collections ou laissez vide pour scraper toute la boutique</p>
+                <textarea id="downloader-urls" class="tiktok-textarea" placeholder="Collez vos URLs ici (une par ligne)
+
+YouTube : https://www.youtube.com/watch?v=...
+Instagram : https://www.instagram.com/reel/...
+Twitter/X : https://twitter.com/user/status/...
+TikTok : https://www.tiktok.com/@user/video/..." rows="7"></textarea>
+                <div class="tiktok-info">
+                    <span id="downloader-url-count">0 URL(s) détectée(s)</span>
+                    <span class="tiktok-tip">Supporte +1000 plateformes via yt-dlp</span>
+                </div>
+                <button id="downloader-start-btn" class="btn btn-primary tiktok-start-btn" disabled>Télécharger</button>
+            </div>
+
+            <!-- Downloader Processing -->
+            <div id="downloader-processing-section" class="section hidden">
+                <h2>Téléchargement en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="downloader-progress-fill"></div></div>
+                    <div class="progress-text"><span id="downloader-progress-status">Démarrage...</span><span id="downloader-progress-pct">0%</span></div>
+                </div>
+                <p id="downloader-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- Downloader Results -->
+            <div id="downloader-results-section" class="section hidden">
+                <h2>Téléchargements terminés</h2>
+                <div id="downloader-results-list" class="tiktok-results-list"></div>
+                <div class="actions" style="margin-top:20px;">
+                    <button id="downloader-new-btn" class="btn btn-secondary">Nouveau téléchargement</button>
                 </div>
             </div>
 
-            <div id="scraper-no-collections" class="scraper-no-collections hidden">
-                <p>Aucune collection trouvee (ou API collections non accessible).</p>
-                <button id="scraper-start-all-btn" class="btn btn-primary" style="width:100%; margin-top:12px;">Exporter tous les produits en CSV</button>
+            <!-- Audio Zone -->
+            <div id="audio-zone" class="image-zone hidden">
+                <div class="image-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    <div>
+                        <h3>Extraction Audio</h3>
+                        <p>Extrait le son d'une vidéo MP4 en MP3 ou WAV</p>
+                    </div>
+                </div>
+                <div class="image-scale-section">
+                    <label>Format de sortie :</label>
+                    <div class="scale-buttons">
+                        <button class="audio-fmt-btn selected" data-fmt="mp3">MP3 <span>Léger, universel</span></button>
+                        <button class="audio-fmt-btn" data-fmt="wav">WAV <span>Sans perte</span></button>
+                    </div>
+                </div>
+                <div id="audio-upload-zone" class="upload-zone" style="margin-top:16px;">
+                    <div class="upload-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    </div>
+                    <p class="upload-text">Glissez votre vidéo MP4 ici</p>
+                    <p class="upload-hint">Le son sera extrait en MP3 ou WAV</p>
+                    <input type="file" id="audio-file-input" accept=".mp4,video/mp4" hidden>
+                </div>
             </div>
-        </div>
 
-        <!-- Scraper Processing Section -->
-        <div id="scraper-processing-section" class="section hidden">
-            <h2>Scraping en cours</h2>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="scraper-progress-fill"></div>
+            <!-- Audio Processing -->
+            <div id="audio-processing-section" class="section hidden">
+                <h2>Extraction en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="audio-progress-fill"></div></div>
+                    <div class="progress-text"><span id="audio-progress-status">Extraction...</span><span id="audio-progress-pct">0%</span></div>
                 </div>
-                <div class="progress-text">
-                    <span id="scraper-progress-status">Connexion...</span>
-                    <span id="scraper-progress-pct">0%</span>
-                </div>
-            </div>
-            <div class="pipeline-steps">
-                <div class="step" data-step="connecting">
-                    <span class="step-dot"></span> Connexion a la boutique
-                </div>
-                <div class="step" data-step="scraping">
-                    <span class="step-dot"></span> Recuperation des produits
-                </div>
-                <div class="step" data-step="generating">
-                    <span class="step-dot"></span> Generation du CSV
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
+                <div class="pipeline-steps">
+                    <div class="step active" data-step="processing"><span class="step-dot"></span> Extraction de l'audio via FFmpeg</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
                 </div>
             </div>
-            <p id="scraper-detail-status" class="ai-detail-status"></p>
-        </div>
 
-        <!-- Scraper Results Section -->
-        <div id="scraper-results-section" class="section hidden">
-            <h2>Export termine</h2>
-            <div class="scraper-result-info">
+            <!-- Audio Results -->
+            <div id="audio-results-section" class="section hidden">
+                <h2>Audio extrait</h2>
                 <div class="info-items">
-                    <div class="info-item">
-                        <div class="label">PRODUITS</div>
-                        <div class="value" id="scraper-products-count">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">LIGNES CSV</div>
-                        <div class="value" id="scraper-rows-count">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">FORMAT</div>
-                        <div class="value">Shopify CSV</div>
-                    </div>
+                    <div class="info-item"><div class="label">FORMAT</div><div class="value" id="audio-result-format">-</div></div>
+                    <div class="info-item"><div class="label">TAILLE</div><div class="value" id="audio-result-size">-</div></div>
                 </div>
-            </div>
-            <div class="actions">
-                <button id="scraper-download-btn" class="btn btn-primary">Telecharger le CSV</button>
-                <button id="scraper-new-btn" class="btn btn-secondary">Nouveau scrape</button>
-            </div>
-        </div>
-
-        <!-- Analyse Zone -->
-        <div id="analyse-zone" class="scraper-zone hidden">
-            <div class="scraper-header">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <line x1="18" y1="20" x2="18" y2="10"/>
-                    <line x1="12" y1="20" x2="12" y2="4"/>
-                    <line x1="6" y1="20" x2="6" y2="14"/>
-                </svg>
-                <div>
-                    <h3>Analyse de Shop</h3>
-                    <p>Best-sellers, estimation CA, liens vers les ads</p>
+                <div class="actions">
+                    <button id="audio-download-btn" class="btn btn-primary">Télécharger l'audio</button>
+                    <button id="audio-new-btn" class="btn btn-secondary">Extraire un autre</button>
                 </div>
             </div>
 
-            <!-- Sub-tabs: Analyse rapide / Tracking -->
-            <div class="analyse-subtabs">
-                <button class="analyse-subtab selected" data-subtab="quick">Analyse rapide</button>
-                <button class="analyse-subtab" data-subtab="tracking">Tracking inventaire</button>
+            <!-- Trim Zone -->
+            <div id="trim-zone" class="image-zone hidden">
+                <div class="image-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+                    <div>
+                        <h3>Trim Vidéo</h3>
+                        <p>Découpez une portion de votre vidéo</p>
+                    </div>
+                </div>
+                <div id="trim-upload-zone" class="upload-zone">
+                    <div class="upload-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/></svg>
+                    </div>
+                    <p class="upload-text">Glissez votre vidéo MP4 ici</p>
+                    <p class="upload-hint">puis définissez le début et la fin</p>
+                    <input type="file" id="trim-file-input" accept=".mp4,video/mp4" hidden>
+                </div>
+                <div id="trim-controls" class="trim-controls hidden">
+                    <div class="trim-time-row">
+                        <div class="trim-time-group">
+                            <label>Début (secondes)</label>
+                            <input type="number" id="trim-start" class="trim-time-input" value="0" min="0" step="0.1">
+                        </div>
+                        <div class="trim-time-group">
+                            <label>Fin (secondes)</label>
+                            <input type="number" id="trim-end" class="trim-time-input" value="0" min="0" step="0.1">
+                        </div>
+                        <div class="trim-time-group">
+                            <label>Durée totale</label>
+                            <div class="trim-duration" id="trim-total-duration">-</div>
+                        </div>
+                    </div>
+                    <input type="range" id="trim-range-start" class="trim-range" min="0" max="100" value="0" step="0.1">
+                    <input type="range" id="trim-range-end" class="trim-range" min="0" max="100" value="100" step="0.1">
+                    <button id="trim-start-btn" class="btn btn-primary" style="width:100%;margin-top:12px;">Découper</button>
+                </div>
             </div>
 
-            <!-- Quick analysis -->
-            <div id="analyse-quick-section">
+            <!-- Trim Processing -->
+            <div id="trim-processing-section" class="section hidden">
+                <h2>Découpe en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="trim-progress-fill"></div></div>
+                    <div class="progress-text"><span id="trim-progress-status">Découpe...</span><span id="trim-progress-pct">0%</span></div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step active" data-step="processing"><span class="step-dot"></span> Découpe FFmpeg en cours</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+            </div>
+
+            <!-- Trim Results -->
+            <div id="trim-results-section" class="section hidden">
+                <h2>Vidéo découpée</h2>
+                <div class="info-items">
+                    <div class="info-item"><div class="label">TAILLE</div><div class="value" id="trim-result-size">-</div></div>
+                </div>
+                <div class="actions">
+                    <button id="trim-download-btn" class="btn btn-primary">Télécharger la vidéo</button>
+                    <button id="trim-new-btn" class="btn btn-secondary">Découper une autre</button>
+                </div>
+            </div>
+
+            <!-- BG Remove Zone -->
+            <div id="bgremove-zone" class="image-zone hidden">
+                <div class="image-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <div>
+                        <h3>Suppression de fond</h3>
+                        <p>Supprime automatiquement le fond avec l'IA (rembg)</p>
+                    </div>
+                </div>
+                <div id="bgremove-upload-zone" class="upload-zone">
+                    <div class="upload-icon">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <p class="upload-text">Glissez votre image ici</p>
+                    <p class="upload-hint">PNG, JPEG, WebP — le fond sera supprimé</p>
+                    <input type="file" id="bgremove-file-input" accept=".png,.jpg,.jpeg,.webp,.bmp,image/*" hidden>
+                </div>
+            </div>
+
+            <!-- BG Remove Processing -->
+            <div id="bgremove-processing-section" class="section hidden">
+                <h2>Suppression du fond en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="bgremove-progress-fill"></div></div>
+                    <div class="progress-text"><span id="bgremove-progress-status">Chargement du modèle...</span><span id="bgremove-progress-pct">0%</span></div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step" data-step="processing"><span class="step-dot"></span> Détection IA du sujet</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="bgremove-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- BG Remove Results -->
+            <div id="bgremove-results-section" class="section hidden">
+                <h2>Fond supprimé</h2>
+                <div id="bgremove-preview-container" class="bgremove-preview-container">
+                    <div class="bgremove-preview-wrap">
+                        <p class="bgremove-label">Avant</p>
+                        <img id="bgremove-before" class="bgremove-preview" alt="Avant"/>
+                    </div>
+                    <div class="bgremove-preview-wrap">
+                        <p class="bgremove-label">Après</p>
+                        <img id="bgremove-after" class="bgremove-preview checkered" alt="Après"/>
+                    </div>
+                </div>
+                <div class="info-items" style="margin-top:16px;">
+                    <div class="info-item"><div class="label">FORMAT</div><div class="value">PNG (transparent)</div></div>
+                    <div class="info-item"><div class="label">TAILLE</div><div class="value" id="bgremove-result-size">-</div></div>
+                </div>
+                <div class="actions">
+                    <button id="bgremove-download-btn" class="btn btn-primary">Télécharger (PNG transparent)</button>
+                    <button id="bgremove-new-btn" class="btn btn-secondary">Traiter une autre image</button>
+                </div>
+            </div>
+
+            <!-- Voiceover Zone -->
+            <div id="voiceover-zone" class="section hidden">
+                <div class="vo-header">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    <div>
+                        <h2>Générateur de voix off</h2>
+                        <p>13 voix françaises · Microsoft Neural TTS · Script IA intégré</p>
+                    </div>
+                </div>
+
+                <!-- IA Script Generator -->
+                <div class="vo-ai-box">
+                    <div class="vo-ai-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        Générer un script avec l'IA
+                    </div>
+                    <div class="vo-ai-fields">
+                        <textarea id="vo-prompt" class="vo-textarea" rows="3"
+                            placeholder="Ex : Une pub pour une marque de café haut de gamme, ton chaleureux et élégant, environ 30 secondes..."></textarea>
+                        <div class="vo-ai-options">
+                            <select id="vo-script-tone" class="vo-select-sm">
+                                <option value="naturel">Naturel</option>
+                                <option value="professionnel">Professionnel</option>
+                                <option value="dynamique">Dynamique / Énergie</option>
+                                <option value="chaleureux">Chaleureux</option>
+                                <option value="mystérieux">Mystérieux</option>
+                                <option value="humoristique">Humoristique</option>
+                                <option value="storytelling">Storytelling</option>
+                            </select>
+                            <select id="vo-script-duration" class="vo-select-sm">
+                                <option value="15">~15 sec</option>
+                                <option value="30" selected>~30 sec</option>
+                                <option value="60">~1 min</option>
+                                <option value="120">~2 min</option>
+                                <option value="180">~3 min</option>
+                            </select>
+                            <select id="vo-script-lang" class="vo-select-sm">
+                                <option value="français">Français</option>
+                                <option value="anglais">English</option>
+                                <option value="espagnol">Español</option>
+                            </select>
+                            <button id="vo-ai-btn" class="btn btn-secondary vo-ai-generate-btn">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                Générer le script
+                            </button>
+                        </div>
+                        <div id="vo-ai-status" class="vo-ai-status hidden"></div>
+                    </div>
+                </div>
+
+                <div class="vo-layout">
+                    <div class="vo-left">
+                        <div class="vo-field">
+                            <div class="vo-label-row">
+                                <label class="vo-label">Texte à lire</label>
+                                <span id="vo-char-count" class="vo-char-count-inline">0 / 5000</span>
+                            </div>
+                            <textarea id="vo-text" class="vo-textarea vo-text-main" placeholder="Collez ou écrivez votre script ici..." rows="9" maxlength="5000"></textarea>
+                        </div>
+                    </div>
+                    <div class="vo-right">
+                        <div class="vo-field">
+                            <label class="vo-label">🇫🇷 Voix françaises</label>
+                            <div class="vo-voice-grid">
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-FR-DeniseNeural" checked>
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Denise</span><span class="vo-vc-meta">FR · Femme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-FR-VivienneMultilingualNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Vivienne</span><span class="vo-vc-meta">FR · Femme ★</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-FR-EloiseNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Éloïse</span><span class="vo-vc-meta">FR · Femme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-FR-HenriNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Henri</span><span class="vo-vc-meta">FR · Homme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-FR-RemyMultilingualNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Rémy</span><span class="vo-vc-meta">FR · Homme ★</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-BE-CharlineNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Charline</span><span class="vo-vc-meta">BE · Femme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-BE-GerardNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Gérard</span><span class="vo-vc-meta">BE · Homme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CA-SylvieNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Sylvie</span><span class="vo-vc-meta">CA · Femme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CA-ThierryNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Thierry</span><span class="vo-vc-meta">CA · Homme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CA-AntoineNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Antoine</span><span class="vo-vc-meta">CA · Homme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CA-JeanNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Jean</span><span class="vo-vc-meta">CA · Homme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CH-ArianeNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Ariane</span><span class="vo-vc-meta">CH · Femme</span></div>
+                                </label>
+                                <label class="vo-voice-card">
+                                    <input type="radio" name="vo-voice-radio" value="fr-CH-FabriceNeural">
+                                    <div class="vo-vc-inner"><span class="vo-vc-name">Fabrice</span><span class="vo-vc-meta">CH · Homme</span></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <details class="vo-other-voices">
+                            <summary>Autres langues</summary>
+                            <select id="vo-voice-other" class="vo-select" style="margin-top:8px;">
+                                <option value="">— Sélectionner —</option>
+                                <optgroup label="English (US)">
+                                    <option value="en-US-AriaNeural">Aria — Female, expressive</option>
+                                    <option value="en-US-JennyNeural">Jenny — Female, friendly</option>
+                                    <option value="en-US-GuyNeural">Guy — Male, professional</option>
+                                </optgroup>
+                                <optgroup label="English (UK)">
+                                    <option value="en-GB-SoniaNeural">Sonia — British Female</option>
+                                    <option value="en-GB-RyanNeural">Ryan — British Male</option>
+                                </optgroup>
+                                <optgroup label="Español">
+                                    <option value="es-ES-ElviraNeural">Elvira — Mujer</option>
+                                    <option value="es-ES-AlvaroNeural">Álvaro — Hombre</option>
+                                    <option value="es-MX-DaliaNeural">Dalia — México</option>
+                                </optgroup>
+                                <optgroup label="Deutsch">
+                                    <option value="de-DE-KatjaNeural">Katja</option>
+                                    <option value="de-DE-ConradNeural">Conrad</option>
+                                </optgroup>
+                                <optgroup label="Italiano">
+                                    <option value="it-IT-ElsaNeural">Elsa</option>
+                                    <option value="it-IT-DiegoNeural">Diego</option>
+                                </optgroup>
+                                <optgroup label="Português">
+                                    <option value="pt-BR-FranciscaNeural">Francisca (BR)</option>
+                                </optgroup>
+                            </select>
+                        </details>
+
+                        <div class="vo-field" style="margin-top:12px;">
+                            <label class="vo-label">Vitesse <span id="vo-rate-val" class="vo-val">Normal</span></label>
+                            <input type="range" id="vo-rate" min="-50" max="50" value="0" class="vo-slider">
+                        </div>
+                        <div class="vo-field">
+                            <label class="vo-label">Hauteur <span id="vo-pitch-val" class="vo-val">Normal</span></label>
+                            <input type="range" id="vo-pitch" min="-20" max="20" value="0" class="vo-slider">
+                        </div>
+                        <button id="vo-generate-btn" class="btn btn-primary" style="width:100%;margin-top:8px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                            Générer la voix off
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Processing -->
+                <div id="vo-processing" class="hidden" style="margin-top:16px;">
+                    <div class="progress-bar"><div class="progress-fill" id="vo-progress-fill" style="width:0%"></div></div>
+                    <div class="progress-text"><span id="vo-status">Génération...</span><span id="vo-pct">0%</span></div>
+                </div>
+
+                <!-- Result -->
+                <div id="vo-result" class="hidden" style="margin-top:20px;">
+                    <div class="vo-result-box">
+                        <audio id="vo-player" controls style="width:100%;"></audio>
+                        <div class="vo-result-info">
+                            <span id="vo-result-voice">-</span>
+                            <span id="vo-result-size">-</span>
+                        </div>
+                    </div>
+                    <div class="actions" style="margin-top:12px;">
+                        <button id="vo-download-btn" class="btn btn-primary">Télécharger le MP3</button>
+                        <button id="vo-new-btn" class="btn btn-secondary">Nouvelle voix off</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scraper Zone -->
+            <div id="scraper-zone" class="scraper-zone{% if has_media %} hidden{% endif %}">
+                <div class="scraper-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <div>
+                        <h3>Shopify Scraper</h3>
+                        <p>Extraire les produits d'une boutique Shopify en CSV</p>
+                    </div>
+                </div>
                 <div class="scraper-url-section">
-                    <label>URL de la boutique Shopify :</label>
+                    <label>URL de la boutique :</label>
                     <div class="scraper-url-row">
-                        <input type="text" id="analyse-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
-                        <button id="analyse-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
+                        <input type="text" id="scraper-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
+                        <button id="scraper-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
+                    </div>
+                </div>
+                <div id="scraper-collections-section" class="scraper-collections-section hidden">
+                    <div class="scraper-collections-header">
+                        <label>Collections trouvées :</label>
+                        <div class="scraper-select-all-row">
+                            <button id="scraper-select-all-btn" class="scraper-link-btn">Tout sélectionner</button>
+                            <button id="scraper-deselect-all-btn" class="scraper-link-btn">Tout désélectionner</button>
+                        </div>
+                    </div>
+                    <div id="scraper-collections-list" class="scraper-collections-list"></div>
+                    <div class="scraper-actions-row">
+                        <button id="scraper-start-btn" class="btn btn-primary" style="width:100%">Exporter en CSV</button>
+                        <p class="scraper-hint">Sélectionnez des collections ou laissez vide pour scraper toute la boutique</p>
+                    </div>
+                </div>
+                <div id="scraper-no-collections" class="scraper-no-collections hidden">
+                    <p>Aucune collection trouvée (ou API collections non accessible).</p>
+                    <button id="scraper-start-all-btn" class="btn btn-primary" style="width:100%; margin-top:12px;">Exporter tous les produits en CSV</button>
+                </div>
+            </div>
+
+            <!-- Scraper Processing -->
+            <div id="scraper-processing-section" class="section hidden">
+                <h2>Scraping en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="scraper-progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="scraper-progress-status">Connexion...</span>
+                        <span id="scraper-progress-pct">0%</span>
+                    </div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step" data-step="connecting"><span class="step-dot"></span> Connexion à la boutique</div>
+                    <div class="step" data-step="scraping"><span class="step-dot"></span> Récupération des produits</div>
+                    <div class="step" data-step="generating"><span class="step-dot"></span> Génération du CSV</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="scraper-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- Scraper Results -->
+            <div id="scraper-results-section" class="section hidden">
+                <h2>Export terminé</h2>
+                <div class="scraper-result-info">
+                    <div class="info-items">
+                        <div class="info-item"><div class="label">PRODUITS</div><div class="value" id="scraper-products-count">-</div></div>
+                        <div class="info-item"><div class="label">LIGNES CSV</div><div class="value" id="scraper-rows-count">-</div></div>
+                        <div class="info-item"><div class="label">FORMAT</div><div class="value">Shopify CSV</div></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button id="scraper-download-btn" class="btn btn-primary">Télécharger CSV</button>
+                    <button id="scraper-download-excel-btn" class="btn btn-secondary">Télécharger Excel</button>
+                    <button id="scraper-new-btn" class="btn btn-secondary">Nouveau scrape</button>
+                </div>
+            </div>
+
+            <!-- Analyse Zone -->
+            <div id="analyse-zone" class="scraper-zone hidden">
+                <div class="scraper-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <div>
+                        <h3>Analyse de Shop</h3>
+                        <p>Best-sellers, estimation CA, liens vers les ads</p>
+                    </div>
+                </div>
+                <div class="analyse-subtabs">
+                    <button class="analyse-subtab selected" data-subtab="quick">Analyse rapide</button>
+                    <button class="analyse-subtab" data-subtab="tracking">Tracking inventaire</button>
+                </div>
+                <div id="analyse-quick-section">
+                    <div class="scraper-url-section">
+                        <label>URL de la boutique Shopify :</label>
+                        <div class="scraper-url-row">
+                            <input type="text" id="analyse-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com ou https://www.maboutique.com">
+                            <button id="analyse-fetch-btn" class="btn btn-primary scraper-fetch-btn">Analyser</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="analyse-tracking-section" class="hidden">
+                    <div class="scraper-url-section">
+                        <label>Ajouter une boutique à tracker :</label>
+                        <div class="scraper-url-row">
+                            <input type="text" id="tracker-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com">
+                            <button id="tracker-add-btn" class="btn btn-primary scraper-fetch-btn">Ajouter</button>
+                        </div>
+                        <p class="scraper-hint" style="margin-top:8px;">Le scan automatique tourne toutes les 24h. Plus le tracking dure, plus les données sont précises.</p>
+                    </div>
+                    <div id="tracker-stores-list" class="tracker-stores-list"></div>
+                </div>
+            </div>
+
+            <!-- Tracker Scan Processing -->
+            <div id="tracker-scan-section" class="section hidden">
+                <h2>Scan inventaire en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="tracker-progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="tracker-progress-status">Connexion...</span>
+                        <span id="tracker-progress-pct">0%</span>
+                    </div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step active" data-step="scanning"><span class="step-dot"></span> Scan des variantes (cart probing)</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="tracker-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- Tracker Data Results -->
+            <div id="tracker-data-section" class="section hidden">
+                <h2>Données de ventes</h2>
+                <div class="analyse-summary">
+                    <div class="info-items">
+                        <div class="info-item"><div class="label">BOUTIQUE</div><div class="value" id="tracker-store-name">-</div></div>
+                        <div class="info-item"><div class="label">SCANS</div><div class="value" id="tracker-scan-count">-</div></div>
+                        <div class="info-item"><div class="label">PÉRIODE</div><div class="value" id="tracker-period">-</div></div>
+                        <div class="info-item"><div class="label">CA MENSUEL EST.</div><div class="value analyse-revenue" id="tracker-total-revenue">-</div></div>
+                    </div>
+                </div>
+                <div id="tracker-single-scan-notice" class="tracker-notice hidden">
+                    Un seul scan disponible. Les données de ventes seront calculées après le prochain scan automatique (dans ~24h).
+                </div>
+                <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Produits par volume de ventes</h3>
+                <div id="tracker-products-list" class="analyse-products-list"></div>
+                <div class="actions" style="margin-top: 20px;">
+                    <button id="tracker-back-btn" class="btn btn-secondary" style="flex:1;">Retour au tracking</button>
+                </div>
+            </div>
+
+            <!-- Analyse Processing -->
+            <div id="analyse-processing-section" class="section hidden">
+                <h2>Analyse en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="analyse-progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="analyse-progress-status">Connexion...</span>
+                        <span id="analyse-progress-pct">0%</span>
+                    </div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step" data-step="connecting"><span class="step-dot"></span> Connexion à la boutique</div>
+                    <div class="step" data-step="scraping"><span class="step-dot"></span> Récupération des best-sellers</div>
+                    <div class="step" data-step="analyzing"><span class="step-dot"></span> Estimation du CA</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="analyse-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- Analyse Results -->
+            <div id="analyse-results-section" class="section hidden">
+                <h2>Analyse de la boutique</h2>
+                <div class="analyse-summary">
+                    <div class="info-items">
+                        <div class="info-item"><div class="label">BOUTIQUE</div><div class="value" id="analyse-store-name">-</div></div>
+                        <div class="info-item"><div class="label">PRODUITS ANALYSÉS</div><div class="value" id="analyse-total-products">-</div></div>
+                        <div class="info-item"><div class="label">CA MENSUEL EST.</div><div class="value analyse-revenue" id="analyse-total-revenue">-</div></div>
+                    </div>
+                </div>
+                <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Top produits (par volume de ventes)</h3>
+                <div id="analyse-products-list" class="analyse-products-list"></div>
+                <div class="actions" style="margin-top: 20px;">
+                    <button id="analyse-new-btn" class="btn btn-secondary" style="flex:1;">Nouvelle analyse</button>
+                </div>
+            </div>
+
+            <!-- Captions Processing -->
+            <div id="captions-processing-section" class="section hidden">
+                <h2>Sous-titrage en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="captions-progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="captions-progress-status">Démarrage...</span>
+                        <span id="captions-progress-pct">0%</span>
+                    </div>
+                </div>
+                <div class="pipeline-steps">
+                    <div class="step" data-step="extracting"><span class="step-dot"></span> Extraction de l'audio</div>
+                    <div class="step" data-step="transcribing"><span class="step-dot"></span> Transcription IA (Whisper)</div>
+                    <div class="step" data-step="generating"><span class="step-dot"></span> Génération des sous-titres</div>
+                    <div class="step" data-step="burning"><span class="step-dot"></span> Incrustation dans la vidéo</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="captions-detail-status" class="ai-detail-status"></p>
+            </div>
+
+            <!-- Captions Results -->
+            <div id="captions-results-section" class="section hidden">
+                <h2>Vidéo sous-titrée</h2>
+                <div class="captions-result-info">
+                    <div class="info-items">
+                        <div class="info-item"><div class="label">LANGUE</div><div class="value" id="captions-lang-result">-</div></div>
+                        <div class="info-item"><div class="label">SEGMENTS</div><div class="value" id="captions-segments-result">-</div></div>
+                        <div class="info-item"><div class="label">TAILLE</div><div class="value" id="captions-size-result">-</div></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button id="captions-download-btn" class="btn btn-primary">Télécharger la vidéo sous-titrée</button>
+                    <button id="captions-new-btn" class="btn btn-secondary">Sous-titrer une autre vidéo</button>
+                </div>
+
+                <!-- CapCut-style captions editor -->
+                <div class="editor-divider">
+                    <button id="captions-editor-toggle" class="editor-toggle-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Éditer les sous-titres (CapCut style)
+                    </button>
+                </div>
+
+                <div id="captions-editor-panel" class="captions-editor-panel hidden">
+                    <!-- TOP ROW: video preview + style panel -->
+                    <div class="ce-top">
+                        <!-- Video preview -->
+                        <div class="ce-video-col">
+                            <div class="ce-video-wrap" id="ce-video-wrap">
+                                <video id="ce-video" preload="metadata"></video>
+                                <div id="ce-sub-overlay" class="ce-sub-overlay"></div>
+                            </div>
+                            <div class="ce-controls">
+                                <button id="ce-play-btn" class="ce-play-btn">
+                                    <svg id="ce-play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </button>
+                                <span class="ce-time" id="ce-time-display">0:00 / 0:00</span>
+                            </div>
+                        </div>
+                        <!-- Style + segment editor -->
+                        <div class="ce-right-col">
+                            <div class="ce-panel-title">Style des sous-titres</div>
+                            <div class="ce-style-grid">
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Texte</span>
+                                    <input type="color" id="ce-color-text" value="#ffffff" class="ce-color-swatch">
+                                    <span class="ce-style-label" style="margin-left:10px;">Contour</span>
+                                    <input type="color" id="ce-color-outline" value="#000000" class="ce-color-swatch">
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Taille</span>
+                                    <input type="range" id="ce-size" min="20" max="80" value="42" class="ce-slider">
+                                    <span class="ce-slider-val" id="ce-size-val">42px</span>
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Position ↕</span>
+                                    <input type="range" id="ce-pos" min="20" max="90" value="60" class="ce-slider">
+                                    <span class="ce-slider-val" id="ce-pos-val">60%</span>
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Template</span>
+                                    <select id="ce-template" class="ce-select">
+                                        <option value="classic">Classic</option>
+                                        <option value="bold_pop">Bold Pop</option>
+                                        <option value="minimal">Minimal</option>
+                                        <option value="neon">Neon</option>
+                                        <option value="helvetica_highlight">Helvetica Highlight</option>
+                                    </select>
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Animation</span>
+                                    <select id="ce-animation" class="ce-select">
+                                        <option value="none">Aucune</option>
+                                        <option value="fade">Fondu (fade in/out)</option>
+                                        <option value="word_highlight">Mot actif coloré</option>
+                                        <option value="pop">Pop (apparition)</option>
+                                        <option value="word_highlight_pop">Mot coloré + Pop</option>
+                                    </select>
+                                </div>
+                                <div class="ce-style-row" id="ce-highlight-row" style="display:none;">
+                                    <span class="ce-style-label">Couleur mot</span>
+                                    <input type="color" id="ce-highlight-color" value="#ffff00" class="ce-color-swatch">
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Mots/groupe</span>
+                                    <select id="ce-max-words" class="ce-select">
+                                        <option value="1">1 mot (karaoké)</option>
+                                        <option value="2" selected>2 mots (CapCut)</option>
+                                        <option value="3">3 mots</option>
+                                        <option value="4">4 mots</option>
+                                        <option value="5">5 mots</option>
+                                        <option value="99">Phrase entière</option>
+                                    </select>
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">Fond</span>
+                                    <input type="color" id="ce-bg-color" value="#000000" class="ce-color-swatch">
+                                    <input type="range" id="ce-bg-opacity" min="0" max="90" value="0" class="ce-slider" style="margin-left:6px;">
+                                    <span class="ce-slider-val" id="ce-bg-val">0%</span>
+                                </div>
+                                <div class="ce-style-row">
+                                    <span class="ce-style-label">MAJUSCULES</span>
+                                    <label class="ce-toggle">
+                                        <input type="checkbox" id="ce-uppercase">
+                                        <span class="ce-toggle-track"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="ce-panel-title" style="margin-top:16px;">Segment sélectionné</div>
+                            <div id="ce-seg-edit" class="ce-seg-edit">
+                                <div class="ce-seg-hint">← Cliquez sur un segment pour l'éditer</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIMELINE -->
+                    <div class="ce-timeline-wrap">
+                        <div class="ce-timeline-track" id="ce-timeline-track">
+                            <div class="ce-timeline-playhead" id="ce-playhead"></div>
+                        </div>
+                    </div>
+
+                    <!-- SEGMENTS LIST -->
+                    <div class="ce-seg-list-header">
+                        <span>Tous les segments</span>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            <span id="ce-seg-count" class="ce-seg-count"></span>
+                            <button id="ce-add-seg-btn" class="ce-add-btn" title="Ajouter un segment">+ Ajouter</button>
+                        </div>
+                    </div>
+                    <div id="captions-segments-list" class="segments-list"></div>
+
+                    <!-- ACTIONS -->
+                    <div class="actions" style="margin-top:16px;">
+                        <button id="captions-reburn-btn" class="btn btn-primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Regénérer avec les modifications
+                        </button>
+                    </div>
+                    <div id="captions-reburn-progress" class="hidden" style="margin-top:16px;">
+                        <div class="progress-bar"><div class="progress-fill" id="captions-reburn-fill" style="width:0%"></div></div>
+                        <div class="progress-text">
+                            <span id="captions-reburn-status">En cours...</span>
+                            <span id="captions-reburn-pct">0%</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tracking section -->
-            <div id="analyse-tracking-section" class="hidden">
-                <div class="scraper-url-section">
-                    <label>Ajouter une boutique a tracker :</label>
-                    <div class="scraper-url-row">
-                        <input type="text" id="tracker-url-input" class="scraper-url-input" placeholder="ex: monshop.myshopify.com">
-                        <button id="tracker-add-btn" class="btn btn-primary scraper-fetch-btn">Ajouter</button>
-                    </div>
-                    <p class="scraper-hint" style="margin-top:8px;">Le scan automatique tourne toutes les 24h. Plus le tracking dure, plus les donnees sont precises.</p>
-                </div>
-
-                <div id="tracker-stores-list" class="tracker-stores-list"></div>
-            </div>
-        </div>
-
-        <!-- Tracker Scan Processing Section -->
-        <div id="tracker-scan-section" class="section hidden">
-            <h2>Scan inventaire en cours</h2>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="tracker-progress-fill"></div>
-                </div>
-                <div class="progress-text">
-                    <span id="tracker-progress-status">Connexion...</span>
-                    <span id="tracker-progress-pct">0%</span>
+            <!-- Captions Batch Results -->
+            <div id="captions-batch-results-section" class="section hidden">
+                <h2>Vidéos sous-titrées</h2>
+                <div id="captions-batch-results-list" class="tiktok-results-list"></div>
+                <div class="actions" style="margin-top: 20px;">
+                    <button id="captions-batch-download-all-btn" class="btn btn-primary">Télécharger toutes les vidéos</button>
+                    <button id="captions-batch-new-btn" class="btn btn-secondary">Nouveau batch</button>
                 </div>
             </div>
-            <div class="pipeline-steps">
-                <div class="step active" data-step="scanning">
-                    <span class="step-dot"></span> Scan des variantes (cart probing)
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
-                </div>
-            </div>
-            <p id="tracker-detail-status" class="ai-detail-status"></p>
-        </div>
 
-        <!-- Tracker Data Results Section -->
-        <div id="tracker-data-section" class="section hidden">
-            <h2>Donnees de ventes</h2>
-
-            <div class="analyse-summary">
-                <div class="info-items">
-                    <div class="info-item">
-                        <div class="label">BOUTIQUE</div>
-                        <div class="value" id="tracker-store-name">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">SCANS</div>
-                        <div class="value" id="tracker-scan-count">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">PERIODE</div>
-                        <div class="value" id="tracker-period">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">CA MENSUEL ESTIME</div>
-                        <div class="value analyse-revenue" id="tracker-total-revenue">-</div>
+            <!-- Image Processing -->
+            <div id="image-processing-section" class="section hidden">
+                <h2>Amélioration en cours</h2>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="image-progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="image-progress-status">Analyse...</span>
+                        <span id="image-progress-pct">0%</span>
                     </div>
                 </div>
+                <div class="pipeline-steps">
+                    <div class="step" id="img-step-analyzing" data-step="analyzing"><span class="step-dot"></span> Analyse de l'image</div>
+                    <div class="step" id="img-step-processing" data-step="processing"><span class="step-dot"></span> Amélioration IA (Real-ESRGAN)</div>
+                    <div class="step" id="img-step-done" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="image-detail-status" class="ai-detail-status"></p>
             </div>
 
-            <div id="tracker-single-scan-notice" class="tracker-notice hidden">
-                Un seul scan disponible. Les donnees de ventes seront calculees apres le prochain scan automatique (dans ~24h). En attendant, le classement est base sur le tri best-selling de Shopify.
-            </div>
-
-            <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Produits par volume de ventes</h3>
-            <div id="tracker-products-list" class="analyse-products-list"></div>
-
-            <div class="actions" style="margin-top: 20px;">
-                <button id="tracker-back-btn" class="btn btn-secondary" style="flex:1;">Retour au tracking</button>
-            </div>
-        </div>
-
-        <!-- Analyse Processing Section -->
-        <div id="analyse-processing-section" class="section hidden">
-            <h2>Analyse en cours</h2>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="analyse-progress-fill"></div>
+            <!-- Image Results -->
+            <div id="image-results-section" class="section hidden">
+                <h2>Résultat</h2>
+                <div id="image-preview-container" class="image-preview-container">
+                    <img id="image-preview-before" class="image-preview" alt="Avant" />
+                    <img id="image-preview-after" class="image-preview" alt="Après" />
                 </div>
-                <div class="progress-text">
-                    <span id="analyse-progress-status">Connexion...</span>
-                    <span id="analyse-progress-pct">0%</span>
-                </div>
-            </div>
-            <div class="pipeline-steps">
-                <div class="step" data-step="connecting">
-                    <span class="step-dot"></span> Connexion a la boutique
-                </div>
-                <div class="step" data-step="scraping">
-                    <span class="step-dot"></span> Recuperation des best-sellers
-                </div>
-                <div class="step" data-step="analyzing">
-                    <span class="step-dot"></span> Estimation du CA
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
-                </div>
-            </div>
-            <p id="analyse-detail-status" class="ai-detail-status"></p>
-        </div>
-
-        <!-- Analyse Results Section -->
-        <div id="analyse-results-section" class="section hidden">
-            <h2>Analyse de la boutique</h2>
-
-            <div class="analyse-summary">
-                <div class="info-items">
-                    <div class="info-item">
-                        <div class="label">BOUTIQUE</div>
-                        <div class="value" id="analyse-store-name">-</div>
+                <div class="comparison">
+                    <div class="comp-card">
+                        <h3>Avant</h3>
+                        <div id="img-before-info" class="comp-details"></div>
                     </div>
-                    <div class="info-item">
-                        <div class="label">PRODUITS ANALYSES</div>
-                        <div class="value" id="analyse-total-products">-</div>
+                    <div class="comp-arrow">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </div>
-                    <div class="info-item">
-                        <div class="label">CA MENSUEL ESTIME</div>
-                        <div class="value analyse-revenue" id="analyse-total-revenue">-</div>
+                    <div class="comp-card highlight">
+                        <h3>Après</h3>
+                        <div id="img-after-info" class="comp-details"></div>
                     </div>
                 </div>
-            </div>
-
-            <h3 style="margin-top:24px; margin-bottom:12px; color:#a78bfa;">Top produits (par volume de ventes)</h3>
-            <div id="analyse-products-list" class="analyse-products-list"></div>
-
-            <div class="actions" style="margin-top: 20px;">
-                <button id="analyse-new-btn" class="btn btn-secondary" style="flex:1;">Nouvelle analyse</button>
-            </div>
-        </div>
-
-        <!-- Captions Processing Section -->
-        <div id="captions-processing-section" class="section hidden">
-            <h2>Sous-titrage en cours</h2>
-
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="captions-progress-fill"></div>
-                </div>
-                <div class="progress-text">
-                    <span id="captions-progress-status">Demarrage...</span>
-                    <span id="captions-progress-pct">0%</span>
+                <div class="actions">
+                    <button id="image-download-btn" class="btn btn-primary">Télécharger l'image améliorée</button>
+                    <button id="image-new-btn" class="btn btn-secondary">Traiter une autre image</button>
                 </div>
             </div>
 
-            <div class="pipeline-steps">
-                <div class="step" data-step="extracting">
-                    <span class="step-dot"></span> Extraction de l'audio
+            <!-- Video Processing -->
+            <div id="processing-section" class="section hidden">
+                <h2>Traitement en cours</h2>
+                <div class="info-grid" id="input-info">
+                    <h3>Vidéo source</h3>
+                    <div class="info-items" id="input-info-items"></div>
                 </div>
-                <div class="step" data-step="transcribing">
-                    <span class="step-dot"></span> Transcription IA (Whisper)
-                </div>
-                <div class="step" data-step="generating">
-                    <span class="step-dot"></span> Generation des sous-titres
-                </div>
-                <div class="step" data-step="burning">
-                    <span class="step-dot"></span> Incrustation dans la video
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
-                </div>
-            </div>
-
-            <p id="captions-detail-status" class="ai-detail-status"></p>
-        </div>
-
-        <!-- Captions Results Section -->
-        <div id="captions-results-section" class="section hidden">
-            <h2>Video sous-titree</h2>
-
-            <div class="captions-result-info">
-                <div class="info-items">
-                    <div class="info-item">
-                        <div class="label">LANGUE</div>
-                        <div class="value" id="captions-lang-result">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">SEGMENTS</div>
-                        <div class="value" id="captions-segments-result">-</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">TAILLE</div>
-                        <div class="value" id="captions-size-result">-</div>
+                <div class="progress-container">
+                    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+                    <div class="progress-text">
+                        <span id="progress-status">Analyse...</span>
+                        <span id="progress-pct">0%</span>
                     </div>
                 </div>
+                <div id="pipeline-ffmpeg" class="pipeline-steps">
+                    <div class="step" data-step="analyzing"><span class="step-dot"></span> Analyse de la vidéo</div>
+                    <div class="step" data-step="processing"><span class="step-dot"></span> Débruitage + Netteté + Couleurs + Compression H.265</div>
+                    <div class="step fps-step hidden" data-step="fps_boost"><span class="step-dot"></span> Interpolation FPS (fluidité)</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <div id="pipeline-ai" class="pipeline-steps hidden">
+                    <div class="step" data-step="analyzing"><span class="step-dot"></span> Analyse de la vidéo</div>
+                    <div class="step" data-step="ai_processing"><span class="step-dot"></span> Extraction des frames</div>
+                    <div class="step" data-step="ai_upscale"><span class="step-dot"></span> Amélioration IA (Real-ESRGAN) frame par frame</div>
+                    <div class="step" data-step="ai_reassemble"><span class="step-dot"></span> Assemblage + Compression H.265</div>
+                    <div class="step fps-step hidden" data-step="fps_boost"><span class="step-dot"></span> Interpolation FPS (fluidité)</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <div id="pipeline-tiktok" class="pipeline-steps hidden">
+                    <div class="step" data-step="downloading"><span class="step-dot"></span> Téléchargement TikTok (sans filigrane)</div>
+                    <div class="step" data-step="enhancing"><span class="step-dot"></span> Amélioration IA</div>
+                    <div class="step" data-step="done"><span class="step-dot"></span> Terminé</div>
+                </div>
+                <p id="ai-detail-status" class="ai-detail-status hidden"></p>
             </div>
 
-            <div class="actions">
-                <button id="captions-download-btn" class="btn btn-primary">Telecharger la video sous-titree</button>
-                <button id="captions-new-btn" class="btn btn-secondary">Sous-titrer une autre video</button>
-            </div>
-        </div>
-
-        <!-- Captions Batch Results Section -->
-        <div id="captions-batch-results-section" class="section hidden">
-            <h2>Videos sous-titrees</h2>
-            <div id="captions-batch-results-list" class="tiktok-results-list"></div>
-            <div class="actions" style="margin-top: 20px;">
-                <button id="captions-batch-download-all-btn" class="btn btn-primary">Telecharger toutes les videos</button>
-                <button id="captions-batch-new-btn" class="btn btn-secondary">Nouveau batch</button>
-            </div>
-        </div>
-
-        <!-- Image Processing Section -->
-        <div id="image-processing-section" class="section hidden">
-            <h2>Amelioration en cours</h2>
-
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="image-progress-fill"></div>
+            <!-- Video Results -->
+            <div id="results-section" class="section hidden">
+                <h2>Résultat</h2>
+                <div class="comparison">
+                    <div class="comp-card">
+                        <h3>Avant</h3>
+                        <div id="before-info" class="comp-details"></div>
+                    </div>
+                    <div class="comp-arrow">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                    <div class="comp-card highlight">
+                        <h3>Après</h3>
+                        <div id="after-info" class="comp-details"></div>
+                    </div>
                 </div>
-                <div class="progress-text">
-                    <span id="image-progress-status">Analyse...</span>
-                    <span id="image-progress-pct">0%</span>
-                </div>
-            </div>
-
-            <div class="pipeline-steps">
-                <div class="step" id="img-step-analyzing" data-step="analyzing">
-                    <span class="step-dot"></span> Analyse de l'image
-                </div>
-                <div class="step" id="img-step-processing" data-step="processing">
-                    <span class="step-dot"></span> Amelioration IA (Real-ESRGAN)
-                </div>
-                <div class="step" id="img-step-done" data-step="done">
-                    <span class="step-dot"></span> Termine
-                </div>
-            </div>
-
-            <p id="image-detail-status" class="ai-detail-status"></p>
-        </div>
-
-        <!-- Image Results Section -->
-        <div id="image-results-section" class="section hidden">
-            <h2>Resultat</h2>
-
-            <div id="image-preview-container" class="image-preview-container">
-                <img id="image-preview-before" class="image-preview" alt="Avant" />
-                <img id="image-preview-after" class="image-preview" alt="Apres" />
-            </div>
-
-            <div class="comparison">
-                <div class="comp-card">
-                    <h3>Avant</h3>
-                    <div id="img-before-info" class="comp-details"></div>
-                </div>
-                <div class="comp-arrow">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </div>
-                <div class="comp-card highlight">
-                    <h3>Apres</h3>
-                    <div id="img-after-info" class="comp-details"></div>
+                <div class="savings" id="savings"></div>
+                <div class="actions">
+                    <button id="download-btn" class="btn btn-primary">Télécharger la vidéo améliorée</button>
+                    <button id="new-btn" class="btn btn-secondary">Traiter une autre vidéo</button>
                 </div>
             </div>
 
-            <div class="actions">
-                <button id="image-download-btn" class="btn btn-primary">Telecharger l'image amelioree</button>
-                <button id="image-new-btn" class="btn btn-secondary">Traiter une autre image</button>
-            </div>
-        </div>
-
-        <!-- Processing Section -->
-        <div id="processing-section" class="section hidden">
-            <h2>Traitement en cours</h2>
-
-            <div class="info-grid" id="input-info">
-                <h3>Video source</h3>
-                <div class="info-items" id="input-info-items"></div>
-            </div>
-
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <div class="progress-text">
-                    <span id="progress-status">Analyse...</span>
-                    <span id="progress-pct">0%</span>
+            <!-- TikTok Results -->
+            <div id="tiktok-results-section" class="section hidden">
+                <h2>Résultats TikTok</h2>
+                <div id="tiktok-results-list" class="tiktok-results-list"></div>
+                <div class="actions" style="margin-top: 20px;">
+                    <button id="tiktok-download-all-btn" class="btn btn-primary">Télécharger toutes les vidéos</button>
+                    <button id="tiktok-new-btn" class="btn btn-secondary">Nouveau batch</button>
                 </div>
             </div>
 
-            <div id="pipeline-ffmpeg" class="pipeline-steps">
-                <div class="step" data-step="analyzing">
-                    <span class="step-dot"></span> Analyse de la video
-                </div>
-                <div class="step" data-step="processing">
-                    <span class="step-dot"></span> Debruitage + Nettete + Couleurs + Compression H.265
-                </div>
-                <div class="step fps-step hidden" data-step="fps_boost">
-                    <span class="step-dot"></span> Interpolation FPS (fluidite)
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
+            <!-- Error -->
+            <div id="error-section" class="section hidden">
+                <div class="error-box">
+                    <h3>Erreur</h3>
+                    <p id="error-message"></p>
+                    <button id="retry-btn" class="btn btn-secondary">Réessayer</button>
                 </div>
             </div>
 
-            <div id="pipeline-ai" class="pipeline-steps hidden">
-                <div class="step" data-step="analyzing">
-                    <span class="step-dot"></span> Analyse de la video
+            <!-- SETTINGS PAGE -->
+            <div id="settings-zone" class="section hidden">
+                <div class="settings-header">
+                    <h2>Paramètres</h2>
+                    <p class="settings-subtitle">Configurez vos clés API pour activer le générateur de scripts IA</p>
                 </div>
-                <div class="step" data-step="ai_processing">
-                    <span class="step-dot"></span> Extraction des frames
+
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                        </div>
+                        <div>
+                            <h3>OpenAI</h3>
+                            <p class="settings-card-desc">Pour générer des scripts avec GPT-4o mini (recommandé)</p>
+                        </div>
+                        <div id="openai-badge" class="settings-badge hidden">✓ Configurée</div>
+                    </div>
+                    <div class="settings-field">
+                        <label>Clé API OpenAI</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="openai-key-input" placeholder="sk-proj-..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('openai-key-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <p class="settings-hint">Trouve ta clé sur <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></p>
+                    </div>
                 </div>
-                <div class="step" data-step="ai_upscale">
-                    <span class="step-dot"></span> Amelioration IA (Real-ESRGAN) frame par frame
+
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon" style="background:#1a1a2e;color:#a78bfa;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                        <div>
+                            <h3>Anthropic <span class="settings-tag">Alternatif</span></h3>
+                            <p class="settings-card-desc">Utilise Claude Haiku si OpenAI n'est pas configuré</p>
+                        </div>
+                        <div id="anthropic-badge" class="settings-badge hidden">✓ Configurée</div>
+                    </div>
+                    <div class="settings-field">
+                        <label>Clé API Anthropic</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="anthropic-key-input" placeholder="sk-ant-..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('anthropic-key-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <p class="settings-hint">Trouve ta clé sur <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a></p>
+                    </div>
                 </div>
-                <div class="step" data-step="ai_reassemble">
-                    <span class="step-dot"></span> Assemblage + Compression H.265
+
+                <!-- TikTok credentials -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon" style="background:rgba(0,0,0,0.4);color:#f472b6;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                        </div>
+                        <div>
+                            <h3>TikTok API <span class="settings-tag">Publish</span></h3>
+                            <p class="settings-card-desc">Pour publier des vidéos sur TikTok via l'API Content Posting</p>
+                        </div>
+                        <div id="tiktok-api-badge" class="settings-badge hidden">✓ Configuré</div>
+                    </div>
+                    <div class="settings-field" style="margin-bottom:10px;">
+                        <label>TikTok Client Key</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="tiktok-client-key-input" placeholder="awxxxxxx..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('tiktok-client-key-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-field">
+                        <label>TikTok Client Secret</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="tiktok-client-secret-input" placeholder="xxxxxxxxxxxxxxxx..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('tiktok-client-secret-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <p class="settings-hint">Crée une app sur <a href="https://developers.tiktok.com/" target="_blank">developers.tiktok.com</a> — activer le scope <code>video.publish</code></p>
+                    </div>
                 </div>
-                <div class="step fps-step hidden" data-step="fps_boost">
-                    <span class="step-dot"></span> Interpolation FPS (fluidite)
+
+                <!-- YouTube credentials -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon" style="background:rgba(255,0,0,0.08);color:#f87171;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                        </div>
+                        <div>
+                            <h3>YouTube API <span class="settings-tag">Publish</span></h3>
+                            <p class="settings-card-desc">Pour uploader des vidéos sur YouTube via YouTube Data API v3</p>
+                        </div>
+                        <div id="youtube-api-badge" class="settings-badge hidden">✓ Configuré</div>
+                    </div>
+                    <div class="settings-field" style="margin-bottom:10px;">
+                        <label>YouTube Client ID</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="youtube-client-id-input" placeholder="xxxxxxxxxx.apps.googleusercontent.com" autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('youtube-client-id-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-field">
+                        <label>YouTube Client Secret</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="youtube-client-secret-input" placeholder="GOCSPX-..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('youtube-client-secret-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <p class="settings-hint">Crée un projet sur <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a> — activer YouTube Data API v3</p>
+                    </div>
                 </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
+
+                <!-- Instagram credentials -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon" style="background:rgba(193,53,132,0.1);color:#f472b6;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </div>
+                        <div>
+                            <h3>Instagram API <span class="settings-tag">Publish</span></h3>
+                            <p class="settings-card-desc">Pour publier sur Instagram via Meta Graph API</p>
+                        </div>
+                        <div id="instagram-api-badge" class="settings-badge hidden">✓ Configuré</div>
+                    </div>
+                    <div class="settings-field" style="margin-bottom:10px;">
+                        <label>Instagram App ID</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="instagram-app-id-input" placeholder="1234567890..." autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('instagram-app-id-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-field">
+                        <label>Instagram App Secret</label>
+                        <div class="settings-input-wrap">
+                            <input type="password" id="instagram-app-secret-input" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+                            <button class="settings-eye-btn" onclick="toggleSettingsEye('instagram-app-secret-input', this)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                        <p class="settings-hint">Crée une app sur <a href="https://developers.facebook.com/apps/" target="_blank">Meta for Developers</a> — activer Instagram Graph API</p>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button id="settings-save-btn" class="btn btn-primary" onclick="saveSettings()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Sauvegarder
+                    </button>
+                    <span id="settings-save-msg" style="display:none;color:#4ade80;font-size:0.9rem;">✓ Sauvegardé !</span>
+                </div>
+
+                <div class="settings-info-box">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <div>
+                        <strong>Note :</strong> Les clés sont stockées localement dans <code>config.json</code> sur ton Mac. Elles ne sont jamais envoyées ailleurs que vers OpenAI/Anthropic lors de la génération de scripts.
+                        <br>La <strong>voix off (edge-tts)</strong>, les sous-titres et tous les autres outils fonctionnent <strong>sans clé API</strong>.
+                    </div>
                 </div>
             </div>
 
-            <div id="pipeline-tiktok" class="pipeline-steps hidden">
-                <div class="step" data-step="downloading">
-                    <span class="step-dot"></span> Telechargement TikTok (sans filigrane)
+            <!-- HISTORY PAGE -->
+            <div id="history-zone" class="history-zone hidden">
+                <div class="history-header">
+                    <div>
+                        <h2>Historique</h2>
+                        <p class="history-subtitle">Vos derniers fichiers traités</p>
+                    </div>
+                    <button id="history-clear-btn" class="btn btn-secondary btn-sm">Tout effacer</button>
                 </div>
-                <div class="step" data-step="enhancing">
-                    <span class="step-dot"></span> Amelioration IA
-                </div>
-                <div class="step" data-step="done">
-                    <span class="step-dot"></span> Termine
-                </div>
-            </div>
-
-            <p id="ai-detail-status" class="ai-detail-status hidden"></p>
-        </div>
-
-        <!-- Results Section (file upload) -->
-        <div id="results-section" class="section hidden">
-            <h2>Resultat</h2>
-
-            <div class="comparison">
-                <div class="comp-card">
-                    <h3>Avant</h3>
-                    <div id="before-info" class="comp-details"></div>
-                </div>
-                <div class="comp-arrow">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                        <polyline points="12 5 19 12 12 19"/>
-                    </svg>
-                </div>
-                <div class="comp-card highlight">
-                    <h3>Apres</h3>
-                    <div id="after-info" class="comp-details"></div>
+                <div id="history-list" class="history-list">
+                    <div class="history-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.3">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                            <path d="M12 7v5l4 2"/>
+                        </svg>
+                        <p>Aucun fichier traité pour l'instant</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="savings" id="savings"></div>
+            <!-- AUTOMATION PAGE -->
+            <div id="automation-zone" class="automation-zone hidden">
+                <!-- Section A: Générateur de Reels Auto -->
+                <div class="auto-card">
+                    <div class="auto-card-header">
+                        <div class="auto-card-icon purple">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                        </div>
+                        <div>
+                            <div class="auto-card-title">Générateur de Reels Auto</div>
+                            <div class="auto-card-desc">Découpez automatiquement une vidéo longue en clips courts</div>
+                        </div>
+                    </div>
 
-            <div class="actions">
-                <button id="download-btn" class="btn btn-primary">Telecharger la video amelioree</button>
-                <button id="new-btn" class="btn btn-secondary">Traiter une autre video</button>
+                    <div class="auto-form-row">
+                        <div class="auto-form-group" style="flex:2;">
+                            <label>Vidéo source (MP4 ou URL YouTube)</label>
+                            <div style="display:flex;gap:8px;">
+                                <input type="text" id="automation-url-input" class="auto-input" placeholder="https://youtube.com/watch?v=... ou laissez vide pour uploader">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <div id="automation-upload-zone" class="upload-zone" style="padding:20px;">
+                            <div class="upload-icon" style="margin-bottom:8px;">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </div>
+                            <p class="upload-text" style="font-size:0.84rem;">Glissez votre vidéo MP4 ici</p>
+                            <p class="upload-hint">ou cliquez pour sélectionner</p>
+                            <input type="file" id="automation-file-input" accept=".mp4,video/mp4" hidden>
+                        </div>
+                        <div id="automation-file-selected" style="display:none;padding:8px 12px;background:#111118;border:1px solid #10b981;border-radius:8px;font-size:0.82rem;color:#10b981;"></div>
+                    </div>
+
+                    <div class="auto-form-row">
+                        <div class="auto-form-group">
+                            <label>Durée par clip</label>
+                            <select id="automation-duration" class="auto-select">
+                                <option value="15">15 secondes</option>
+                                <option value="30" selected>30 secondes</option>
+                                <option value="60">60 secondes</option>
+                            </select>
+                        </div>
+                        <div class="auto-form-group">
+                            <label>Nombre de clips</label>
+                            <input type="number" id="automation-num-clips" class="auto-input" min="1" max="10" value="3" placeholder="3">
+                        </div>
+                        <div class="auto-form-group">
+                            <label>Style captions</label>
+                            <select id="automation-caption-style" class="auto-select">
+                                <option value="none">Aucun</option>
+                                <option value="classic">Classic (blanc)</option>
+                                <option value="bold_pop" selected>Bold Pop (jaune)</option>
+                                <option value="neon">Neon (cyan)</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+                        <div class="auto-form-group">
+                            <label>Couleur accent</label>
+                            <input type="color" id="automation-caption-color" value="#ffee00" style="width:100%;height:38px;border:1.5px solid #1c1c28;border-radius:8px;background:#0c0c14;cursor:pointer;padding:4px;">
+                        </div>
+                    </div>
+
+                    <div id="automation-clips-progress" class="hidden" style="margin-bottom:14px;">
+                        <div class="progress-bar"><div class="progress-fill" id="automation-clips-fill" style="width:0%"></div></div>
+                        <div class="progress-text">
+                            <span id="automation-clips-status">Traitement en cours...</span>
+                            <span id="automation-clips-pct">0%</span>
+                        </div>
+                    </div>
+
+                    <div id="automation-clips-results" class="clips-results-list hidden"></div>
+
+                    <div class="actions" style="margin-top:4px;">
+                        <button id="automation-generate-clips-btn" class="btn btn-primary" style="flex:1;justify-content:center;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Générer les clips
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section B: Pipeline complet -->
+                <div class="auto-card">
+                    <div class="auto-card-header">
+                        <div class="auto-card-icon blue">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        </div>
+                        <div>
+                            <div class="auto-card-title">Pipeline Complet</div>
+                            <div class="auto-card-desc">Configurez et exécutez un pipeline automatisé en plusieurs étapes</div>
+                        </div>
+                    </div>
+
+                    <p style="font-size:0.78rem;color:#4a4a68;margin-bottom:14px;">Glissez les étapes pour les réordonner. Cochez celles à activer.</p>
+
+                    <div class="pipeline-visual" id="pipeline-blocks">
+                        <div class="pipeline-step-block active" draggable="true" data-step="import">
+                            <div class="pipeline-step-num">1</div>
+                            <div class="pipeline-step-name">Importer</div>
+                            <div class="pipeline-step-desc">Upload ou URL de la vidéo source</div>
+                            <label class="pipeline-step-check checked">
+                                <input type="checkbox" checked> Activer
+                            </label>
+                        </div>
+                        <div class="pipeline-connector">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </div>
+                        <div class="pipeline-step-block active" draggable="true" data-step="process">
+                            <div class="pipeline-step-num">2</div>
+                            <div class="pipeline-step-name">Traiter</div>
+                            <div class="pipeline-step-desc">Captions, découpe, amélioration IA</div>
+                            <label class="pipeline-step-check checked">
+                                <input type="checkbox" checked> Activer
+                            </label>
+                        </div>
+                        <div class="pipeline-connector">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </div>
+                        <div class="pipeline-step-block" draggable="true" data-step="publish">
+                            <div class="pipeline-step-num">3</div>
+                            <div class="pipeline-step-name">Publier</div>
+                            <div class="pipeline-step-desc">TikTok, YouTube, Instagram</div>
+                            <label class="pipeline-step-check">
+                                <input type="checkbox"> Activer
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="pipeline-run-btn" class="btn btn-primary" style="flex:1;justify-content:center;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Lancer le pipeline
+                        </button>
+                        <button id="pipeline-reset-btn" class="btn btn-secondary">Réinitialiser</button>
+                    </div>
+                    <div id="pipeline-run-status" style="display:none;margin-top:12px;font-size:0.83rem;color:#a78bfa;"></div>
+                </div>
+
+                <!-- Section C: Batch Captions -->
+                <div class="auto-card">
+                    <div class="auto-card-header">
+                        <div class="auto-card-icon green">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 15h4m-4-3h10M7 9h7"/></svg>
+                        </div>
+                        <div>
+                            <div class="auto-card-title">Batch Captions</div>
+                            <div class="auto-card-desc">Sous-titrez plusieurs vidéos en une seule fois</div>
+                        </div>
+                    </div>
+
+                    <div id="batch-captions-upload-zone" class="upload-zone" style="padding:20px;margin-bottom:12px;">
+                        <div class="upload-icon" style="margin-bottom:8px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <p class="upload-text" style="font-size:0.84rem;">Glissez plusieurs vidéos MP4 ici</p>
+                        <p class="upload-hint">ou cliquez pour sélectionner (multi-sélection)</p>
+                        <input type="file" id="batch-captions-input" accept=".mp4,video/mp4" multiple hidden>
+                    </div>
+
+                    <div id="batch-captions-file-list" style="margin-bottom:12px;"></div>
+
+                    <div class="auto-form-row">
+                        <div class="auto-form-group">
+                            <label>Langue</label>
+                            <select id="batch-captions-lang" class="auto-select">
+                                <option value="auto">Auto-détection</option>
+                                <option value="fr">Français</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                            </select>
+                        </div>
+                        <div class="auto-form-group">
+                            <label>Template</label>
+                            <select id="batch-captions-template" class="auto-select">
+                                <option value="classic">Classic</option>
+                                <option value="bold_pop" selected>Bold Pop</option>
+                                <option value="minimal">Minimal</option>
+                                <option value="neon">Neon</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="batch-captions-progress-list" style="margin-bottom:12px;"></div>
+
+                    <div class="actions">
+                        <button id="batch-captions-start-btn" class="btn btn-primary" disabled style="flex:1;justify-content:center;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Lancer le batch
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- TikTok Results Section -->
-        <div id="tiktok-results-section" class="section hidden">
-            <h2>Resultats TikTok</h2>
-            <div id="tiktok-results-list" class="tiktok-results-list"></div>
-            <div class="actions" style="margin-top: 20px;">
-                <button id="tiktok-download-all-btn" class="btn btn-primary">Telecharger toutes les videos</button>
-                <button id="tiktok-new-btn" class="btn btn-secondary">Nouveau batch</button>
+            <!-- PUBLISH PAGE -->
+            <div id="publish-zone" class="publish-zone hidden">
+
+                <!-- Platform connection cards -->
+                <div class="publish-form-title">Réseaux connectés</div>
+                <div class="platform-cards">
+                    <div class="platform-card" id="tiktok-platform-card">
+                        <div class="platform-logo tiktok">🎵</div>
+                        <div class="platform-name">TikTok</div>
+                        <div class="platform-status disconnected-status" id="tiktok-platform-status">
+                            <span class="status-dot"></span>Non connecté
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="tiktok-connect-btn" onclick="window.location.href='/publish/tiktok/auth'">
+                            Connecter
+                        </button>
+                    </div>
+                    <div class="platform-card" id="youtube-platform-card">
+                        <div class="platform-logo youtube">▶️</div>
+                        <div class="platform-name">YouTube</div>
+                        <div class="platform-status disconnected-status" id="youtube-platform-status">
+                            <span class="status-dot"></span>Non connecté
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="youtube-connect-btn" onclick="window.location.href='/publish/youtube/auth'">
+                            Connecter
+                        </button>
+                    </div>
+                    <div class="platform-card" id="instagram-platform-card">
+                        <div class="platform-logo instagram">📸</div>
+                        <div class="platform-name">Instagram</div>
+                        <div class="platform-status disconnected-status" id="instagram-platform-status">
+                            <span class="status-dot"></span>Non connecté
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="instagram-connect-btn" onclick="window.location.href='/publish/instagram/auth'">
+                            Connecter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Publication form -->
+                <div class="publish-form-card">
+                    <div class="publish-form-title">Nouvelle publication</div>
+
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Vidéo à publier</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="text" id="publish-file-path" class="publish-input" style="flex:1;margin-bottom:0;" placeholder="Chemin du fichier ou sélectionnez ci-dessous...">
+                            <button class="btn btn-secondary btn-sm" id="publish-browse-btn">Parcourir</button>
+                            <input type="file" id="publish-file-input" accept=".mp4,video/mp4" hidden>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Titre</label>
+                        <input type="text" id="publish-title" class="publish-input" placeholder="Titre de la vidéo...">
+                    </div>
+
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Description</label>
+                        <textarea id="publish-description" class="publish-textarea" placeholder="Description de la vidéo..."></textarea>
+                    </div>
+
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Hashtags</label>
+                        <input type="text" id="publish-hashtags" class="publish-input" placeholder="#viral #video #reel ...">
+                    </div>
+
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">Publier sur</label>
+                        <div class="network-checkboxes">
+                            <label class="network-check-label" id="publish-tiktok-check-label">
+                                <input type="checkbox" id="publish-on-tiktok"> 🎵 TikTok
+                            </label>
+                            <label class="network-check-label" id="publish-youtube-check-label">
+                                <input type="checkbox" id="publish-on-youtube"> ▶️ YouTube
+                            </label>
+                            <label class="network-check-label" id="publish-instagram-check-label">
+                                <input type="checkbox" id="publish-on-instagram"> 📸 Instagram
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-size:0.72rem;font-weight:600;color:#5060a0;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">Planification</label>
+                        <div class="schedule-row">
+                            <div class="schedule-toggle-btns">
+                                <button class="schedule-btn active" id="schedule-now-btn">Maintenant</button>
+                                <button class="schedule-btn" id="schedule-later-btn">Planifier</button>
+                            </div>
+                            <input type="datetime-local" id="publish-scheduled-time" class="publish-datetime-input hidden">
+                        </div>
+                    </div>
+
+                    <div id="publish-progress" style="display:none;margin-bottom:14px;">
+                        <div class="progress-bar"><div class="progress-fill" id="publish-progress-fill" style="width:0%"></div></div>
+                        <div class="progress-text">
+                            <span id="publish-progress-status">Publication en cours...</span>
+                            <span id="publish-progress-pct">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="publish-now-btn" class="btn btn-primary" style="flex:1;justify-content:center;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            Publier
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Publish History -->
+                <div class="publish-form-card">
+                    <div class="publish-form-title">Historique des publications</div>
+                    <div id="publish-history-container">
+                        <table class="publish-history-table">
+                            <thead>
+                                <tr>
+                                    <th>Plateforme</th>
+                                    <th>Titre</th>
+                                    <th>Statut</th>
+                                    <th>Date</th>
+                                    <th>Lien</th>
+                                </tr>
+                            </thead>
+                            <tbody id="publish-history-tbody">
+                                <tr>
+                                    <td colspan="5" style="text-align:center;color:#3a3a55;padding:24px;">Aucune publication pour l'instant</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Error Section -->
-        <div id="error-section" class="section hidden">
-            <div class="error-box">
-                <h3>Erreur</h3>
-                <p id="error-message"></p>
-                <button id="retry-btn" class="btn btn-secondary">Reessayer</button>
-            </div>
-        </div>
-    </div>
+        </div><!-- /content-area -->
+    </main>
+</div><!-- /app-layout -->
 
-    <script>window.HAS_MEDIA = {{ 'true' if has_media else 'false' }};</script>
-    <script src="/static/app.js"></script>
+<!-- Toast container -->
+<div id="toast-container" class="toast-container"></div>
+
+<script>window.HAS_MEDIA = {{ 'true' if has_media else 'false' }};</script>
+<script src="/static/app.js"></script>
 </body>
 </html>
